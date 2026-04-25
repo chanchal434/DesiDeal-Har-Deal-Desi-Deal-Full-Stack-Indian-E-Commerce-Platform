@@ -1,12 +1,12 @@
 /* ============================================================
-   ShopZone – Main Application JavaScript
+   DesiDeal – Main Application JavaScript
    ============================================================ */
 
 // ── State ──────────────────────────────────────────────────
 const state = {
-  cart: JSON.parse(localStorage.getItem('shopzone_cart') || '[]'),
-  wishlist: JSON.parse(localStorage.getItem('shopzone_wishlist') || '[]'),
-  recentlyViewed: JSON.parse(localStorage.getItem('shopzone_recent') || '[]'),
+  cart: JSON.parse(localStorage.getItem('desideal_cart') || '[]'),
+  wishlist: JSON.parse(localStorage.getItem('desideal_wishlist') || '[]'),
+  recentlyViewed: JSON.parse(localStorage.getItem('desideal_recent') || '[]'),
   currentCategory: 'all',
   currentSearch: '',
   currentSort: 'featured',
@@ -65,7 +65,7 @@ function goToSlide(index) {
 // ── Countdown Timer ────────────────────────────────────────
 function startTimer() {
   // Set end time to 8 hours from now (persisted in session)
-  const key = 'shopzone_timer_end';
+  const key = 'desideal_timer_end';
   let endTime = parseInt(localStorage.getItem(key) || '0');
   if (!endTime || endTime < Date.now()) {
     endTime = Date.now() + 8 * 60 * 60 * 1000;
@@ -280,14 +280,14 @@ function createProductCard(product) {
     : '';
 
   const priceHTML = product.originalPrice
-    ? `<span class="price-sale">$${product.price.toFixed(2)}</span>
-       <span class="price-original">$${product.originalPrice.toFixed(2)}</span>
+    ? `<span class="price-sale">₹${product.price.toFixed(2)}</span>
+       <span class="price-original">₹${product.originalPrice.toFixed(2)}</span>
        <span class="price-discount">-${discount}%</span>`
-    : `<span class="price-regular">$${product.price.toFixed(2)}</span>`;
+    : `<span class="price-regular">₹${product.price.toFixed(2)}</span>`;
 
   const shippingHTML = product.freeShipping
     ? `<p class="product-shipping"><i class="fas fa-shipping-fast"></i> FREE Delivery${product.prime ? ' <span style="color:#007185">Prime</span>' : ''}</p>`
-    : `<p class="product-shipping paid"><i class="fas fa-truck"></i> Ships $4.99</p>`;
+    : `<p class="product-shipping paid"><i class="fas fa-truck"></i> Ships ₹40.00</p>`;
 
   const listClass = isList ? 'list-card' : '';
 
@@ -361,11 +361,11 @@ function openProductModal(id) {
 
   const priceHTML = product.originalPrice
     ? `<div class="modal-price-row">
-         <span class="modal-price-sale">$${product.price.toFixed(2)}</span>
-         <span class="modal-price-orig">$${product.originalPrice.toFixed(2)}</span>
+         <span class="modal-price-sale">₹${product.price.toFixed(2)}</span>
+         <span class="modal-price-orig">₹${product.originalPrice.toFixed(2)}</span>
        </div>
-       <p class="modal-price-save">You save: $${savings} (${discount}% off)</p>`
-    : `<div class="modal-price-row"><span class="modal-price-sale">$${product.price.toFixed(2)}</span></div>`;
+       <p class="modal-price-save">You save: ₹${savings} (${discount}% off)</p>`
+    : `<div class="modal-price-row"><span class="modal-price-sale">₹${product.price.toFixed(2)}</span></div>`;
 
   const featuresHTML = product.features.map(f => `<li>${f}</li>`).join('');
 
@@ -489,7 +489,7 @@ function updateCartQty(productId, delta) {
 }
 
 function saveCart() {
-  localStorage.setItem('shopzone_cart', JSON.stringify(state.cart));
+  localStorage.setItem('desideal_cart', JSON.stringify(state.cart));
 }
 
 function updateCartUI() {
@@ -524,7 +524,7 @@ function renderCartItems() {
         <div class="cart-item-image">${product.emoji}</div>
         <div class="cart-item-details">
           <p class="cart-item-title">${product.title}</p>
-          <p class="cart-item-price">$${(product.price * item.qty).toFixed(2)}</p>
+          <p class="cart-item-price">₹${(product.price * item.qty).toFixed(2)}</p>
           <div class="cart-item-controls">
             <button class="qty-btn" onclick="updateCartQty(${product.id}, -1)">−</button>
             <span class="qty-display">${item.qty}</span>
@@ -550,14 +550,14 @@ function updateCartTotals() {
 
   const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
-  setEl('cart-subtotal', `$${subtotal.toFixed(2)}`);
-  setEl('cart-total', `$${total.toFixed(2)}`);
-  setEl('cart-discount-amount', `-$${discount.toFixed(2)}`);
+  setEl('cart-subtotal', `₹${subtotal.toFixed(2)}`);
+  setEl('cart-total', `₹${total.toFixed(2)}`);
+  setEl('cart-discount-amount', `-₹${discount.toFixed(2)}`);
 
   const discRow = document.getElementById('cart-discount-row');
   if (discRow) discRow.classList.toggle('hidden', state.promoDiscount === 0);
 
-  setEl('cart-shipping', subtotal >= 35 || subtotal === 0 ? 'FREE' : '$4.99');
+  setEl('cart-shipping', subtotal >= 499 || subtotal === 0 ? 'FREE' : '₹40.00');
 }
 
 // ── Promo Code ─────────────────────────────────────────────
@@ -614,7 +614,7 @@ function toggleWishlist(productId) {
     showToast(`<i class="fas fa-heart"></i> <span><strong>${product?.title?.substring(0, 30)}...</strong> added to wishlist!</span>`, 'success');
   }
 
-  localStorage.setItem('shopzone_wishlist', JSON.stringify(state.wishlist));
+  localStorage.setItem('desideal_wishlist', JSON.stringify(state.wishlist));
 
   // Update wishlist button in modal
   const modalBtn = document.getElementById('modal-wishlist-btn');
@@ -634,7 +634,7 @@ function addToRecentlyViewed(productId) {
   state.recentlyViewed = state.recentlyViewed.filter(id => id !== productId);
   state.recentlyViewed.unshift(productId);
   if (state.recentlyViewed.length > 8) state.recentlyViewed.pop();
-  localStorage.setItem('shopzone_recent', JSON.stringify(state.recentlyViewed));
+  localStorage.setItem('desideal_recent', JSON.stringify(state.recentlyViewed));
   renderRecentlyViewed();
 }
 
@@ -658,7 +658,7 @@ function renderRecentlyViewed() {
         </div>
         <div class="product-info" style="padding:10px;">
           <p class="product-title" style="font-size:12px;-webkit-line-clamp:2;">${p.title}</p>
-          <span class="price-sale" style="font-size:14px;">$${p.price.toFixed(2)}</span>
+          <span class="price-sale" style="font-size:14px;">₹${p.price.toFixed(2)}</span>
         </div>
       </div>
     `;
@@ -743,12 +743,12 @@ function goToCheckout() {
     const product = PRODUCTS.find(p => p.id === item.id);
     return product ? sum + product.price * item.qty : sum;
   }, 0);
-  const tax = subtotal * 0.08;
+  const tax = subtotal * 0.18; // Updated to 18% GST for India
   const total = subtotal + tax;
 
-  document.getElementById('co-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-  document.getElementById('co-tax').textContent = `$${tax.toFixed(2)}`;
-  document.getElementById('co-total').textContent = `$${total.toFixed(2)}`;
+  document.getElementById('co-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+  document.getElementById('co-tax').textContent = `₹${tax.toFixed(2)}`;
+  document.getElementById('co-total').textContent = `₹${total.toFixed(2)}`;
 
   const itemsHtml = state.cart.map(item => {
     const p = PRODUCTS.find(prod => prod.id === item.id);
@@ -760,7 +760,7 @@ function goToCheckout() {
           <p class="checkout-item-name">${p.title.substring(0, 45)}${p.title.length > 45 ? '...' : ''}</p>
           <p class="checkout-item-qty">Qty: ${item.qty}</p>
         </div>
-        <span class="checkout-item-price">$${(p.price * item.qty).toFixed(2)}</span>
+        <span class="checkout-item-price">₹${(p.price * item.qty).toFixed(2)}</span>
       </div>
     `;
   }).join('');
@@ -779,7 +779,7 @@ function closeCheckout() {
 
 // ── Place Order ────────────────────────────────────────────
 function placeOrder() {
-  const orderNum = 'SZ-' + Date.now().toString().slice(-8);
+  const orderNum = 'DD-' + Date.now().toString().slice(-8);
   
   const successItems = state.cart.map(item => {
     const p = PRODUCTS.find(prod => prod.id === item.id);
@@ -791,7 +791,7 @@ function placeOrder() {
           <p class="checkout-item-name">${p.title.substring(0, 50)}</p>
           <p class="checkout-item-qty">Qty: ${item.qty}</p>
         </div>
-        <span class="checkout-item-price">$${(p.price * item.qty).toFixed(2)}</span>
+        <span class="checkout-item-price">₹${(p.price * item.qty).toFixed(2)}</span>
       </div>
     `;
   }).join('');
