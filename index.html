@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopZone – Deals. Selection. Delivered.</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ========== TOP UTILITY BAR ========== -->
+<div id="utility-bar">
+  <div class="container flex-between">
+    <span><i class="fas fa-shipping-fast"></i> Free shipping on orders over $35</span>
+    <span>Customer Service &nbsp;|&nbsp; <a href="#">Help</a> &nbsp;|&nbsp; <a href="#">Sell</a></span>
+  </div>
+</div>
+
+<!-- ========== MAIN HEADER ========== -->
+<header id="main-header">
+  <div class="container header-inner">
+
+    <!-- Logo -->
+    <a href="index.html" id="logo">
+      <span class="logo-main">ShopZone</span>
+      <span class="logo-dot">.com</span>
+    </a>
+
+    <!-- Deliver to -->
+    <div id="deliver-to" class="header-btn">
+      <i class="fas fa-map-marker-alt"></i>
+      <div>
+        <span class="small-label">Deliver to</span>
+        <span class="bold-label">United States</span>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div id="search-bar">
+      <select id="search-category">
+        <option value="all">All</option>
+        <option value="electronics">Electronics</option>
+        <option value="clothing">Clothing</option>
+        <option value="home">Home &amp; Kitchen</option>
+        <option value="books">Books</option>
+        <option value="sports">Sports</option>
+        <option value="toys">Toys</option>
+        <option value="beauty">Beauty</option>
+      </select>
+      <input type="text" id="search-input" placeholder="Search ShopZone products..." />
+      <button id="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Right Actions -->
+    <div id="header-actions">
+      <div class="header-btn" id="account-btn">
+        <i class="fas fa-user"></i>
+        <div>
+          <span class="small-label">Hello, Sign in</span>
+          <span class="bold-label">Account &amp; Lists <i class="fas fa-caret-down"></i></span>
+        </div>
+        <!-- Dropdown -->
+        <div id="account-dropdown">
+          <div class="dropdown-header">
+            <button class="btn-primary" onclick="showSignIn()">Sign In</button>
+            <p>New customer? <a href="#">Start here.</a></p>
+          </div>
+          <ul>
+            <li><a href="#"><i class="fas fa-list"></i> Your Orders</a></li>
+            <li><a href="#"><i class="fas fa-heart"></i> Your Wishlist</a></li>
+            <li><a href="#"><i class="fas fa-star"></i> Prime Membership</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="header-btn" id="returns-btn">
+        <i class="fas fa-undo-alt"></i>
+        <div>
+          <span class="small-label">Returns</span>
+          <span class="bold-label">&amp; Orders</span>
+        </div>
+      </div>
+
+      <div class="header-btn" id="cart-toggle-btn" onclick="toggleCart()">
+        <div class="cart-icon-wrapper">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="cart-count">0</span>
+        </div>
+        <span class="bold-label">Cart</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ========== NAV BAR ========== -->
+<nav id="category-nav">
+  <div class="container nav-inner">
+    <button id="all-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i> All</button>
+    <a href="#" onclick="filterCategory('electronics')"><i class="fas fa-bolt"></i> Today's Deals</a>
+    <a href="#" onclick="filterCategory('electronics')">Electronics</a>
+    <a href="#" onclick="filterCategory('clothing')">Fashion</a>
+    <a href="#" onclick="filterCategory('home')">Home &amp; Kitchen</a>
+    <a href="#" onclick="filterCategory('books')">Books</a>
+    <a href="#" onclick="filterCategory('sports')">Sports &amp; Outdoors</a>
+    <a href="#" onclick="filterCategory('toys')">Toys &amp; Games</a>
+    <a href="#" onclick="filterCategory('beauty')">Beauty</a>
+    <a href="#" class="highlight"><i class="fas fa-crown"></i> Prime</a>
+  </div>
+</nav>
+
+<!-- ========== SIDEBAR ========== -->
+<aside id="sidebar" class="hidden">
+  <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+  <div id="sidebar-content">
+    <div id="sidebar-header">
+      <i class="fas fa-user-circle"></i>
+      <span>Hello, Sign In</span>
+      <button onclick="toggleSidebar()" id="sidebar-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="sidebar-section">
+      <h3>Shop By Category</h3>
+      <ul>
+        <li><a href="#" onclick="filterCategory('all');toggleSidebar()"><i class="fas fa-th"></i> All Products</a></li>
+        <li><a href="#" onclick="filterCategory('electronics');toggleSidebar()"><i class="fas fa-laptop"></i> Electronics</a></li>
+        <li><a href="#" onclick="filterCategory('clothing');toggleSidebar()"><i class="fas fa-tshirt"></i> Clothing</a></li>
+        <li><a href="#" onclick="filterCategory('home');toggleSidebar()"><i class="fas fa-home"></i> Home &amp; Kitchen</a></li>
+        <li><a href="#" onclick="filterCategory('books');toggleSidebar()"><i class="fas fa-book"></i> Books</a></li>
+        <li><a href="#" onclick="filterCategory('sports');toggleSidebar()"><i class="fas fa-running"></i> Sports &amp; Outdoors</a></li>
+        <li><a href="#" onclick="filterCategory('toys');toggleSidebar()"><i class="fas fa-gamepad"></i> Toys &amp; Games</a></li>
+        <li><a href="#" onclick="filterCategory('beauty');toggleSidebar()"><i class="fas fa-spa"></i> Beauty</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h3>Help &amp; Settings</h3>
+      <ul>
+        <li><a href="#"><i class="fas fa-user"></i> Your Account</a></li>
+        <li><a href="#"><i class="fas fa-crown"></i> Prime Membership</a></li>
+        <li><a href="#"><i class="fas fa-headset"></i> Customer Service</a></li>
+        <li><a href="#"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<!-- ========== HERO BANNER ========== -->
+<section id="hero-section">
+  <div id="hero-slider">
+    <div class="hero-slide active" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+      <div class="hero-content">
+        <p class="hero-tag">Limited Time Offer</p>
+        <h1>Massive Deals on <span>Electronics</span></h1>
+        <p class="hero-desc">Up to 60% off on laptops, smartphones, and more. Shop the best tech deals today.</p>
+        <div class="hero-btns">
+          <button class="btn-primary btn-lg" onclick="filterCategory('electronics')">Shop Electronics</button>
+          <button class="btn-outline btn-lg" onclick="filterCategory('all')">View All Deals</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-product-cards">
+          <div class="mini-card">🖥️ <strong>Laptops</strong><br><span>from $299</span></div>
+          <div class="mini-card">📱 <strong>Phones</strong><br><span>from $199</span></div>
+          <div class="mini-card">🎧 <strong>Audio</strong><br><span>from $49</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" style="background: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);">
+      <div class="hero-content">
+        <p class="hero-tag">New Arrivals</p>
+        <h1>Summer Fashion <span>Collection</span></h1>
+        <p class="hero-desc">Discover the latest trends in clothing and accessories. Fresh styles added daily.</p>
+        <div class="hero-btns">
+          <button class="btn-primary btn-lg" onclick="filterCategory('clothing')">Shop Fashion</button>
+          <button class="btn-outline btn-lg">View Lookbook</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-product-cards">
+          <div class="mini-card">👗 <strong>Dresses</strong><br><span>from $29</span></div>
+          <div class="mini-card">👟 <strong>Shoes</strong><br><span>from $39</span></div>
+          <div class="mini-card">👜 <strong>Bags</strong><br><span>from $49</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-slide" style="background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);">
+      <div class="hero-content">
+        <p class="hero-tag">Weekend Special</p>
+        <h1>Transform Your <span>Home</span></h1>
+        <p class="hero-desc">Amazing deals on furniture, kitchen appliances, and home decor items.</p>
+        <div class="hero-btns">
+          <button class="btn-primary btn-lg" onclick="filterCategory('home')">Shop Home</button>
+          <button class="btn-outline btn-lg">Explore Deals</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-product-cards">
+          <div class="mini-card">🛋️ <strong>Furniture</strong><br><span>from $199</span></div>
+          <div class="mini-card">🍳 <strong>Kitchen</strong><br><span>from $29</span></div>
+          <div class="mini-card">💡 <strong>Lighting</strong><br><span>from $19</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slider Controls -->
+  <button class="hero-arrow left" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+  <button class="hero-arrow right" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+  <div id="hero-dots">
+    <span class="dot active" onclick="goToSlide(0)"></span>
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+  </div>
+</section>
+
+<!-- ========== DEALS TIMER ========== -->
+<section id="deals-timer-section" class="container">
+  <div id="deals-timer-bar">
+    <div class="deals-left">
+      <i class="fas fa-fire"></i>
+      <span>Flash Deals</span>
+    </div>
+    <div class="timer-wrapper">
+      <span>Ends in:</span>
+      <div class="timer-block"><span id="timer-h">00</span><small>hrs</small></div>
+      <div class="timer-block"><span id="timer-m">00</span><small>min</small></div>
+      <div class="timer-block"><span id="timer-s">00</span><small>sec</small></div>
+    </div>
+    <button class="btn-primary" onclick="filterCategory('all')">See All Deals</button>
+  </div>
+</section>
+
+<!-- ========== CATEGORIES GRID ========== -->
+<section id="categories-section" class="container">
+  <h2 class="section-title">Shop by Category</h2>
+  <div id="categories-grid">
+    <div class="category-card" onclick="filterCategory('electronics')">
+      <div class="cat-icon">⚡</div>
+      <span>Electronics</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('clothing')">
+      <div class="cat-icon">👗</div>
+      <span>Fashion</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('home')">
+      <div class="cat-icon">🏠</div>
+      <span>Home &amp; Kitchen</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('books')">
+      <div class="cat-icon">📚</div>
+      <span>Books</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('sports')">
+      <div class="cat-icon">🏃</div>
+      <span>Sports</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('toys')">
+      <div class="cat-icon">🎮</div>
+      <span>Toys &amp; Games</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('beauty')">
+      <div class="cat-icon">💄</div>
+      <span>Beauty</span>
+    </div>
+    <div class="category-card" onclick="filterCategory('all')">
+      <div class="cat-icon">🛍️</div>
+      <span>View All</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRODUCTS SECTION ========== -->
+<section id="products-section" class="container">
+  <div id="products-header">
+    <div>
+      <h2 class="section-title" id="products-title">Featured Products</h2>
+      <p id="products-subtitle">Handpicked deals just for you</p>
+    </div>
+    <div id="products-controls">
+      <div id="filter-sort">
+        <select id="sort-select" onchange="sortProducts()">
+          <option value="featured">Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+          <option value="reviews">Most Reviews</option>
+          <option value="newest">Newest</option>
+        </select>
+      </div>
+      <div id="view-toggle">
+        <button class="view-btn active" id="grid-view-btn" onclick="setView('grid')" title="Grid View"><i class="fas fa-th"></i></button>
+        <button class="view-btn" id="list-view-btn" onclick="setView('list')" title="List View"><i class="fas fa-list"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Filters -->
+  <div id="active-filters" class="hidden"></div>
+
+  <!-- Product Grid -->
+  <div id="products-grid"></div>
+
+  <!-- Load More -->
+  <div id="load-more-wrapper">
+    <button id="load-more-btn" onclick="loadMore()">Load More Products <i class="fas fa-chevron-down"></i></button>
+  </div>
+</section>
+
+<!-- ========== PROMO BANNERS ========== -->
+<section id="promo-section" class="container">
+  <div id="promo-grid">
+    <div class="promo-card promo-prime" onclick="alert('Join Prime!')">
+      <i class="fas fa-crown"></i>
+      <div>
+        <h3>Try Prime Free</h3>
+        <p>Free delivery, exclusive deals & more</p>
+      </div>
+      <button class="btn-gold">Get Prime</button>
+    </div>
+    <div class="promo-card promo-gift">
+      <i class="fas fa-gift"></i>
+      <div>
+        <h3>Gift Cards</h3>
+        <p>The perfect gift for everyone</p>
+      </div>
+      <button class="btn-primary">Shop Gift Cards</button>
+    </div>
+    <div class="promo-card promo-sell">
+      <i class="fas fa-store"></i>
+      <div>
+        <h3>Sell on ShopZone</h3>
+        <p>Reach millions of customers</p>
+      </div>
+      <button class="btn-outline-dark">Start Selling</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RECENTLY VIEWED ========== -->
+<section id="recently-section" class="container hidden">
+  <h2 class="section-title">Recently Viewed</h2>
+  <div id="recently-grid"></div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer id="main-footer">
+  <div id="footer-top">
+    <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</button>
+  </div>
+  <div id="footer-links" class="container">
+    <div class="footer-col">
+      <h4>Get to Know Us</h4>
+      <ul>
+        <li><a href="#">About ShopZone</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Releases</a></li>
+        <li><a href="#">Sustainability</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Make Money With Us</h4>
+      <ul>
+        <li><a href="#">Sell products</a></li>
+        <li><a href="#">Become an Affiliate</a></li>
+        <li><a href="#">Advertise Your Products</a></li>
+        <li><a href="#">Self-Publish with Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>ShopZone Payment Products</h4>
+      <ul>
+        <li><a href="#">Business Card</a></li>
+        <li><a href="#">Shop With Points</a></li>
+        <li><a href="#">Reload Your Balance</a></li>
+        <li><a href="#">Currency Converter</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Let Us Help You</h4>
+      <ul>
+        <li><a href="#">Your Account</a></li>
+        <li><a href="#">Your Orders</a></li>
+        <li><a href="#">Shipping Rates</a></li>
+        <li><a href="#">Returns &amp; Replacements</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+  </div>
+  <div id="footer-bottom" class="container">
+    <div id="footer-logo">
+      <span class="logo-main">ShopZone</span><span class="logo-dot">.com</span>
+    </div>
+    <div id="footer-legal">
+      <a href="#">Conditions of Use</a>
+      <a href="#">Privacy Notice</a>
+      <a href="#">Your Ads Privacy Choices</a>
+    </div>
+    <p>© 2025 ShopZone.com, Inc. or its affiliates</p>
+  </div>
+</footer>
+
+<!-- ========== SHOPPING CART DRAWER ========== -->
+<div id="cart-overlay" onclick="toggleCart()"></div>
+<aside id="cart-drawer">
+  <div id="cart-header">
+    <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+    <button onclick="toggleCart()" id="cart-close-btn"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="cart-body">
+    <div id="cart-empty" class="hidden">
+      <i class="fas fa-shopping-cart"></i>
+      <p>Your cart is empty</p>
+      <button class="btn-primary" onclick="toggleCart()">Continue Shopping</button>
+    </div>
+    <div id="cart-items"></div>
+  </div>
+  <div id="cart-footer">
+    <div id="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal (<span id="cart-item-count">0</span> items):</span>
+        <span id="cart-subtotal">$0.00</span>
+      </div>
+      <div class="summary-row discount hidden" id="cart-discount-row">
+        <span>Discount:</span>
+        <span id="cart-discount-amount" class="text-green">-$0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping:</span>
+        <span id="cart-shipping" class="text-green">FREE</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total:</span>
+        <span id="cart-total">$0.00</span>
+      </div>
+    </div>
+    <div id="promo-code-section">
+      <input type="text" id="promo-input" placeholder="Enter promo code" />
+      <button onclick="applyPromo()">Apply</button>
+    </div>
+    <button class="btn-gold full-width" onclick="goToCheckout()">Proceed to Checkout <i class="fas fa-arrow-right"></i></button>
+    <button class="btn-outline full-width mt-sm" onclick="toggleCart()">Continue Shopping</button>
+  </div>
+</aside>
+
+<!-- ========== PRODUCT MODAL ========== -->
+<div id="product-modal-overlay" onclick="closeProductModal()"></div>
+<div id="product-modal">
+  <button id="modal-close" onclick="closeProductModal()"><i class="fas fa-times"></i></button>
+  <div id="modal-content"></div>
+</div>
+
+<!-- ========== TOAST NOTIFICATION ========== -->
+<div id="toast-container"></div>
+
+<!-- ========== SIGN IN MODAL ========== -->
+<div id="signin-modal-overlay" onclick="closeSignIn()"></div>
+<div id="signin-modal">
+  <button class="modal-close-btn" onclick="closeSignIn()"><i class="fas fa-times"></i></button>
+  <div id="signin-logo"><span class="logo-main">ShopZone</span><span class="logo-dot">.com</span></div>
+  <h2>Sign In</h2>
+  <form id="signin-form" onsubmit="handleSignIn(event)">
+    <label>Email or mobile phone number</label>
+    <input type="email" id="signin-email" placeholder="Email or mobile" required/>
+    <label>Password</label>
+    <div class="password-wrapper">
+      <input type="password" id="signin-password" placeholder="Password" required/>
+      <button type="button" onclick="togglePassword()"><i class="fas fa-eye"></i></button>
+    </div>
+    <button type="submit" class="btn-gold full-width">Sign In</button>
+    <p class="terms-text">By signing in, you agree to ShopZone's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+  </form>
+  <div class="divider-text"><span>New to ShopZone?</span></div>
+  <button class="btn-outline full-width" onclick="closeSignIn()">Create your ShopZone account</button>
+</div>
+
+<!-- ========== CHECKOUT PAGE ========== -->
+<div id="checkout-overlay" class="hidden">
+  <div id="checkout-page">
+    <div id="checkout-header">
+      <a href="#" onclick="closeCheckout()"><span class="logo-main">ShopZone</span><span class="logo-dot">.com</span></a>
+      <div id="checkout-steps">
+        <span class="step active">1. Sign In</span>
+        <span class="step-arrow">›</span>
+        <span class="step active">2. Shipping</span>
+        <span class="step-arrow">›</span>
+        <span class="step">3. Payment</span>
+        <span class="step-arrow">›</span>
+        <span class="step">4. Review</span>
+      </div>
+    </div>
+    <div id="checkout-body" class="container">
+      <div id="checkout-main">
+        <section class="checkout-section">
+          <h3><span class="step-num">1</span> Shipping Address</h3>
+          <div class="checkout-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="John" />
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Doe" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" placeholder="123 Main Street" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" placeholder="New York" />
+              </div>
+              <div class="form-group">
+                <label>State</label>
+                <input type="text" placeholder="NY" />
+              </div>
+              <div class="form-group">
+                <label>ZIP Code</label>
+                <input type="text" placeholder="10001" />
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="checkout-section">
+          <h3><span class="step-num">2</span> Payment Method</h3>
+          <div class="payment-options">
+            <label class="payment-option selected">
+              <input type="radio" name="payment" value="card" checked/>
+              <i class="fas fa-credit-card"></i> Credit/Debit Card
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="paypal"/>
+              <i class="fab fa-paypal"></i> PayPal
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="amazon"/>
+              <i class="fas fa-shopping-bag"></i> ShopZone Pay
+            </label>
+          </div>
+          <div class="checkout-form" id="card-form">
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" id="card-number-input"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="text" placeholder="MM/YY" maxlength="5"/>
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" placeholder="123" maxlength="4"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Name on Card</label>
+              <input type="text" placeholder="John Doe" />
+            </div>
+          </div>
+        </section>
+      </div>
+      <div id="checkout-sidebar">
+        <div id="checkout-order-summary">
+          <h3>Order Summary</h3>
+          <div id="checkout-items-list"></div>
+          <div class="checkout-totals">
+            <div class="summary-row"><span>Subtotal:</span><span id="co-subtotal">$0.00</span></div>
+            <div class="summary-row"><span>Shipping:</span><span class="text-green">FREE</span></div>
+            <div class="summary-row"><span>Tax (8%):</span><span id="co-tax">$0.00</span></div>
+            <div class="summary-row total"><span>Order Total:</span><span id="co-total">$0.00</span></div>
+          </div>
+          <button class="btn-gold full-width" onclick="placeOrder()">Place Your Order <i class="fas fa-lock"></i></button>
+          <p class="secure-note"><i class="fas fa-lock"></i> Secure SSL Encryption</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ORDER SUCCESS ========== -->
+<div id="order-success-overlay" class="hidden">
+  <div id="order-success">
+    <div id="success-checkmark"><i class="fas fa-check-circle"></i></div>
+    <h2>Order Placed Successfully!</h2>
+    <p>Thank you for your purchase. Your order has been confirmed.</p>
+    <p id="order-number"></p>
+    <div id="success-items"></div>
+    <button class="btn-gold" onclick="closeOrderSuccess()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
