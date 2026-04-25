@@ -1,5 +1,8 @@
 # DesiDeal is a modern full-stack e-commerce web application built for the Indian market, delivering a seamless and localized online shopping experience with the tagline “Har Deal, Desi Deal”.
 
+  ### Starting making the modern website 
+
+  
 The platform combines a clean and responsive frontend with a scalable backend architecture to provide features like product browsing, advanced filtering, shopping cart, wishlist, user authentication, and secure checkout.
 
 ## Key Features:
