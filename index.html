@@ -3,41 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ShopZone – Deals. Selection. Delivered.</title>
+  <title>DesiDeal – Har Deal, Desi Deal</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-<!-- ========== TOP UTILITY BAR ========== -->
 <div id="utility-bar">
   <div class="container flex-between">
-    <span><i class="fas fa-shipping-fast"></i> Free shipping on orders over $35</span>
+    <span><i class="fas fa-shipping-fast"></i> Free shipping on orders over ₹499</span>
     <span>Customer Service &nbsp;|&nbsp; <a href="#">Help</a> &nbsp;|&nbsp; <a href="#">Sell</a></span>
   </div>
 </div>
 
-<!-- ========== MAIN HEADER ========== -->
 <header id="main-header">
   <div class="container header-inner">
 
-    <!-- Logo -->
-    <a href="index.html" id="logo">
-      <span class="logo-main">ShopZone</span>
-      <span class="logo-dot">.com</span>
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0;">
+      <div>
+        <span class="logo-main">DesiDeal</span>
+        <span class="logo-dot">.in</span>
+      </div>
+      <span class="tagline">Har Deal, Desi Deal</span>
     </a>
 
-    <!-- Deliver to -->
     <div id="deliver-to" class="header-btn">
       <i class="fas fa-map-marker-alt"></i>
       <div>
         <span class="small-label">Deliver to</span>
-        <span class="bold-label">United States</span>
+        <span class="bold-label">India</span>
       </div>
     </div>
 
-    <!-- Search Bar -->
     <div id="search-bar">
       <select id="search-category">
         <option value="all">All</option>
@@ -49,11 +47,10 @@
         <option value="toys">Toys</option>
         <option value="beauty">Beauty</option>
       </select>
-      <input type="text" id="search-input" placeholder="Search ShopZone products..." />
+      <input type="text" id="search-input" placeholder="Search DesiDeal products..." />
       <button id="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
     </div>
 
-    <!-- Right Actions -->
     <div id="header-actions">
       <div class="header-btn" id="account-btn">
         <i class="fas fa-user"></i>
@@ -61,7 +58,6 @@
           <span class="small-label">Hello, Sign in</span>
           <span class="bold-label">Account &amp; Lists <i class="fas fa-caret-down"></i></span>
         </div>
-        <!-- Dropdown -->
         <div id="account-dropdown">
           <div class="dropdown-header">
             <button class="btn-primary" onclick="showSignIn()">Sign In</button>
@@ -98,7 +94,6 @@
   </div>
 </header>
 
-<!-- ========== NAV BAR ========== -->
 <nav id="category-nav">
   <div class="container nav-inner">
     <button id="all-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i> All</button>
@@ -114,7 +109,6 @@
   </div>
 </nav>
 
-<!-- ========== SIDEBAR ========== -->
 <aside id="sidebar" class="hidden">
   <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
   <div id="sidebar-content">
@@ -148,7 +142,6 @@
   </div>
 </aside>
 
-<!-- ========== HERO BANNER ========== -->
 <section id="hero-section">
   <div id="hero-slider">
     <div class="hero-slide active" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
@@ -163,9 +156,9 @@
       </div>
       <div class="hero-image">
         <div class="hero-product-cards">
-          <div class="mini-card">🖥️ <strong>Laptops</strong><br><span>from $299</span></div>
-          <div class="mini-card">📱 <strong>Phones</strong><br><span>from $199</span></div>
-          <div class="mini-card">🎧 <strong>Audio</strong><br><span>from $49</span></div>
+          <div class="mini-card">🖥️ <strong>Laptops</strong><br><span>from ₹29,999</span></div>
+          <div class="mini-card">📱 <strong>Phones</strong><br><span>from ₹14,999</span></div>
+          <div class="mini-card">🎧 <strong>Audio</strong><br><span>from ₹999</span></div>
         </div>
       </div>
     </div>
@@ -181,9 +174,9 @@
       </div>
       <div class="hero-image">
         <div class="hero-product-cards">
-          <div class="mini-card">👗 <strong>Dresses</strong><br><span>from $29</span></div>
-          <div class="mini-card">👟 <strong>Shoes</strong><br><span>from $39</span></div>
-          <div class="mini-card">👜 <strong>Bags</strong><br><span>from $49</span></div>
+          <div class="mini-card">👗 <strong>Dresses</strong><br><span>from ₹999</span></div>
+          <div class="mini-card">👟 <strong>Shoes</strong><br><span>from ₹1,499</span></div>
+          <div class="mini-card">👜 <strong>Bags</strong><br><span>from ₹1,999</span></div>
         </div>
       </div>
     </div>
@@ -199,15 +192,14 @@
       </div>
       <div class="hero-image">
         <div class="hero-product-cards">
-          <div class="mini-card">🛋️ <strong>Furniture</strong><br><span>from $199</span></div>
-          <div class="mini-card">🍳 <strong>Kitchen</strong><br><span>from $29</span></div>
-          <div class="mini-card">💡 <strong>Lighting</strong><br><span>from $19</span></div>
+          <div class="mini-card">🛋️ <strong>Furniture</strong><br><span>from ₹4,999</span></div>
+          <div class="mini-card">🍳 <strong>Kitchen</strong><br><span>from ₹899</span></div>
+          <div class="mini-card">💡 <strong>Lighting</strong><br><span>from ₹499</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Slider Controls -->
   <button class="hero-arrow left" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
   <button class="hero-arrow right" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
   <div id="hero-dots">
@@ -217,7 +209,6 @@
   </div>
 </section>
 
-<!-- ========== DEALS TIMER ========== -->
 <section id="deals-timer-section" class="container">
   <div id="deals-timer-bar">
     <div class="deals-left">
@@ -234,7 +225,6 @@
   </div>
 </section>
 
-<!-- ========== CATEGORIES GRID ========== -->
 <section id="categories-section" class="container">
   <h2 class="section-title">Shop by Category</h2>
   <div id="categories-grid">
@@ -273,7 +263,6 @@
   </div>
 </section>
 
-<!-- ========== PRODUCTS SECTION ========== -->
 <section id="products-section" class="container">
   <div id="products-header">
     <div>
@@ -298,19 +287,15 @@
     </div>
   </div>
 
-  <!-- Active Filters -->
   <div id="active-filters" class="hidden"></div>
 
-  <!-- Product Grid -->
   <div id="products-grid"></div>
 
-  <!-- Load More -->
   <div id="load-more-wrapper">
     <button id="load-more-btn" onclick="loadMore()">Load More Products <i class="fas fa-chevron-down"></i></button>
   </div>
 </section>
 
-<!-- ========== PROMO BANNERS ========== -->
 <section id="promo-section" class="container">
   <div id="promo-grid">
     <div class="promo-card promo-prime" onclick="alert('Join Prime!')">
@@ -332,7 +317,7 @@
     <div class="promo-card promo-sell">
       <i class="fas fa-store"></i>
       <div>
-        <h3>Sell on ShopZone</h3>
+        <h3>Sell on DesiDeal</h3>
         <p>Reach millions of customers</p>
       </div>
       <button class="btn-outline-dark">Start Selling</button>
@@ -340,13 +325,11 @@
   </div>
 </section>
 
-<!-- ========== RECENTLY VIEWED ========== -->
 <section id="recently-section" class="container hidden">
   <h2 class="section-title">Recently Viewed</h2>
   <div id="recently-grid"></div>
 </section>
 
-<!-- ========== FOOTER ========== -->
 <footer id="main-footer">
   <div id="footer-top">
     <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</button>
@@ -355,7 +338,7 @@
     <div class="footer-col">
       <h4>Get to Know Us</h4>
       <ul>
-        <li><a href="#">About ShopZone</a></li>
+        <li><a href="#">About DesiDeal</a></li>
         <li><a href="#">Careers</a></li>
         <li><a href="#">Press Releases</a></li>
         <li><a href="#">Sustainability</a></li>
@@ -371,7 +354,7 @@
       </ul>
     </div>
     <div class="footer-col">
-      <h4>ShopZone Payment Products</h4>
+      <h4>DesiDeal Payment Products</h4>
       <ul>
         <li><a href="#">Business Card</a></li>
         <li><a href="#">Shop With Points</a></li>
@@ -391,19 +374,20 @@
     </div>
   </div>
   <div id="footer-bottom" class="container">
-    <div id="footer-logo">
-      <span class="logo-main">ShopZone</span><span class="logo-dot">.com</span>
+    <div id="footer-logo" style="flex-direction: column; align-items: flex-start; gap: 0;">
+      <div>
+        <span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span>
+      </div>
     </div>
     <div id="footer-legal">
       <a href="#">Conditions of Use</a>
       <a href="#">Privacy Notice</a>
       <a href="#">Your Ads Privacy Choices</a>
     </div>
-    <p>© 2025 ShopZone.com, Inc. or its affiliates</p>
+    <p>© 2026 DesiDeal.in, Inc. or its affiliates</p>
   </div>
 </footer>
 
-<!-- ========== SHOPPING CART DRAWER ========== -->
 <div id="cart-overlay" onclick="toggleCart()"></div>
 <aside id="cart-drawer">
   <div id="cart-header">
@@ -422,11 +406,11 @@
     <div id="cart-summary">
       <div class="summary-row">
         <span>Subtotal (<span id="cart-item-count">0</span> items):</span>
-        <span id="cart-subtotal">$0.00</span>
+        <span id="cart-subtotal">₹0.00</span>
       </div>
       <div class="summary-row discount hidden" id="cart-discount-row">
         <span>Discount:</span>
-        <span id="cart-discount-amount" class="text-green">-$0.00</span>
+        <span id="cart-discount-amount" class="text-green">-₹0.00</span>
       </div>
       <div class="summary-row">
         <span>Shipping:</span>
@@ -434,7 +418,7 @@
       </div>
       <div class="summary-row total">
         <span>Total:</span>
-        <span id="cart-total">$0.00</span>
+        <span id="cart-total">₹0.00</span>
       </div>
     </div>
     <div id="promo-code-section">
@@ -446,21 +430,22 @@
   </div>
 </aside>
 
-<!-- ========== PRODUCT MODAL ========== -->
 <div id="product-modal-overlay" onclick="closeProductModal()"></div>
 <div id="product-modal">
   <button id="modal-close" onclick="closeProductModal()"><i class="fas fa-times"></i></button>
   <div id="modal-content"></div>
 </div>
 
-<!-- ========== TOAST NOTIFICATION ========== -->
 <div id="toast-container"></div>
 
-<!-- ========== SIGN IN MODAL ========== -->
 <div id="signin-modal-overlay" onclick="closeSignIn()"></div>
 <div id="signin-modal">
   <button class="modal-close-btn" onclick="closeSignIn()"><i class="fas fa-times"></i></button>
-  <div id="signin-logo"><span class="logo-main">ShopZone</span><span class="logo-dot">.com</span></div>
+  <div id="signin-logo">
+    <div>
+      <span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span>
+    </div>
+  </div>
   <h2>Sign In</h2>
   <form id="signin-form" onsubmit="handleSignIn(event)">
     <label>Email or mobile phone number</label>
@@ -471,17 +456,18 @@
       <button type="button" onclick="togglePassword()"><i class="fas fa-eye"></i></button>
     </div>
     <button type="submit" class="btn-gold full-width">Sign In</button>
-    <p class="terms-text">By signing in, you agree to ShopZone's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+    <p class="terms-text">By signing in, you agree to DesiDeal's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
   </form>
-  <div class="divider-text"><span>New to ShopZone?</span></div>
-  <button class="btn-outline full-width" onclick="closeSignIn()">Create your ShopZone account</button>
+  <div class="divider-text"><span>New to DesiDeal?</span></div>
+  <button class="btn-outline full-width" onclick="closeSignIn()">Create your DesiDeal account</button>
 </div>
 
-<!-- ========== CHECKOUT PAGE ========== -->
 <div id="checkout-overlay" class="hidden">
   <div id="checkout-page">
     <div id="checkout-header">
-      <a href="#" onclick="closeCheckout()"><span class="logo-main">ShopZone</span><span class="logo-dot">.com</span></a>
+      <a href="#" onclick="closeCheckout()" style="text-decoration: none;">
+        <span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span>
+      </a>
       <div id="checkout-steps">
         <span class="step active">1. Sign In</span>
         <span class="step-arrow">›</span>
@@ -500,11 +486,11 @@
             <div class="form-row">
               <div class="form-group">
                 <label>First Name</label>
-                <input type="text" placeholder="John" />
+                <input type="text" placeholder="Rahul" />
               </div>
               <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" placeholder="Doe" />
+                <input type="text" placeholder="Sharma" />
               </div>
             </div>
             <div class="form-group">
@@ -514,15 +500,15 @@
             <div class="form-row">
               <div class="form-group">
                 <label>City</label>
-                <input type="text" placeholder="New York" />
+                <input type="text" placeholder="Mumbai" />
               </div>
               <div class="form-group">
                 <label>State</label>
-                <input type="text" placeholder="NY" />
+                <input type="text" placeholder="Maharashtra" />
               </div>
               <div class="form-group">
-                <label>ZIP Code</label>
-                <input type="text" placeholder="10001" />
+                <label>PIN Code</label>
+                <input type="text" placeholder="400001" />
               </div>
             </div>
           </div>
@@ -535,12 +521,12 @@
               <i class="fas fa-credit-card"></i> Credit/Debit Card
             </label>
             <label class="payment-option">
-              <input type="radio" name="payment" value="paypal"/>
-              <i class="fab fa-paypal"></i> PayPal
+              <input type="radio" name="payment" value="upi"/>
+              <i class="fab fa-google-pay"></i> UPI
             </label>
             <label class="payment-option">
-              <input type="radio" name="payment" value="amazon"/>
-              <i class="fas fa-shopping-bag"></i> ShopZone Pay
+              <input type="radio" name="payment" value="desideal"/>
+              <i class="fas fa-wallet"></i> DesiDeal Pay
             </label>
           </div>
           <div class="checkout-form" id="card-form">
@@ -560,7 +546,7 @@
             </div>
             <div class="form-group">
               <label>Name on Card</label>
-              <input type="text" placeholder="John Doe" />
+              <input type="text" placeholder="Rahul Sharma" />
             </div>
           </div>
         </section>
@@ -570,10 +556,10 @@
           <h3>Order Summary</h3>
           <div id="checkout-items-list"></div>
           <div class="checkout-totals">
-            <div class="summary-row"><span>Subtotal:</span><span id="co-subtotal">$0.00</span></div>
+            <div class="summary-row"><span>Subtotal:</span><span id="co-subtotal">₹0.00</span></div>
             <div class="summary-row"><span>Shipping:</span><span class="text-green">FREE</span></div>
-            <div class="summary-row"><span>Tax (8%):</span><span id="co-tax">$0.00</span></div>
-            <div class="summary-row total"><span>Order Total:</span><span id="co-total">$0.00</span></div>
+            <div class="summary-row"><span>Tax (18% GST):</span><span id="co-tax">₹0.00</span></div>
+            <div class="summary-row total"><span>Order Total:</span><span id="co-total">₹0.00</span></div>
           </div>
           <button class="btn-gold full-width" onclick="placeOrder()">Place Your Order <i class="fas fa-lock"></i></button>
           <p class="secure-note"><i class="fas fa-lock"></i> Secure SSL Encryption</p>
@@ -583,7 +569,6 @@
   </div>
 </div>
 
-<!-- ========== ORDER SUCCESS ========== -->
 <div id="order-success-overlay" class="hidden">
   <div id="order-success">
     <div id="success-checkmark"><i class="fas fa-check-circle"></i></div>
@@ -595,7 +580,6 @@
   </div>
 </div>
 
-<!-- Scripts -->
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>
 </body>
