@@ -153,12 +153,29 @@ img { max-width: 100%; }
 }
 #logo:hover { border-color: #fff; }
 .logo-main {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
   color: #fff;
   letter-spacing: -0.5px;
+  background: linear-gradient(to right, #ffffff, #f0f2f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.logo-dot { font-size: 14px; color: var(--amazon-orange); font-weight: 600; }
+
+.logo-dot { 
+  font-size: 16px; 
+  color: #FF9933; /* A warm saffron/orange touch */
+  font-weight: 700; 
+}
+
+.tagline {
+  font-size: 11px;
+  color: #FFD814;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-top: -2px;
+}
 
 /* Header Buttons */
 .header-btn {
