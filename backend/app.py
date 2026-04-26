@@ -8,6 +8,9 @@ import os
 import datetime
 import time  # NEW: We need this to generate unique order numbers
 from functools import wraps
+import certifi
+
+
 
 # 1. Initialization
 load_dotenv()
@@ -16,7 +19,7 @@ CORS(app)
 bcrypt = Bcrypt(app) # Initialize password hasher
 
 # Database Connection
-client = MongoClient(os.getenv("MONGO_URI"))
+client = MongoClient(os.getenv("MONGO_URI"), tlsCAFile=certifi.where())
 db = client.desideal_db
 products_collection = db.products
 users_collection = db.users
