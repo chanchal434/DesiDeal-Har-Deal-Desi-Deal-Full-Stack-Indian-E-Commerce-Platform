@@ -184,6 +184,34 @@ const UIController = {
   formatCurrency: (amount) => `₹${amount.toFixed(2)}`,
   formatNumber: (n) => n >= 1000 ? (n / 1000).toFixed(1) + 'k' : n.toString(),
 
+  // ✨ Smart UI Auth Updater
+  updateAuthUI() {
+    const token = localStorage.getItem('desideal_token');
+    const userName = localStorage.getItem('desideal_name');
+    
+    // Header elements
+    const greeting = document.getElementById('nav-user-greeting');
+    const dropHeader = document.getElementById('nav-dropdown-header');
+    const signoutBtn = document.getElementById('nav-signout');
+    
+    // Sidebar element
+    const sidebarGreeting = document.querySelector('#sidebar-header span');
+
+    if (token && userName) {
+      // Logged in
+      if (greeting) greeting.textContent = `Hello, ${userName}`;
+      if (sidebarGreeting) sidebarGreeting.textContent = `Hello, ${userName}`;
+      if (dropHeader) dropHeader.classList.add('hidden');
+      if (signoutBtn) signoutBtn.classList.remove('hidden');
+    } else {
+      // Logged out
+      if (greeting) greeting.textContent = `Hello, Sign in`;
+      if (sidebarGreeting) sidebarGreeting.textContent = `Hello, User`;
+      if (dropHeader) dropHeader.classList.remove('hidden');
+      if (signoutBtn) signoutBtn.classList.add('hidden');
+    }
+  },
+
   // ✨ FULL-STACK INIT FUNCTION ✨
   async init() {
     // 1. Fetch real products from your Python Flask Backend!
@@ -192,9 +220,15 @@ const UIController = {
       const result = await response.json();
       
       if (result.success) {
-        PRODUCTS = result.data; // Fill the global array with MongoDB data
-        // Step 7: Load their DB cart if they are already logged in!
-        await CartService.loadCartFromDB(); 
+        PRODUCTS = result.data; 
+        
+        // ✨ Check UI auth state immediately on load
+        this.updateAuthUI();
+        
+        // If logged in, fetch their cart
+        if (localStorage.getItem('desideal_token')) {
+          await CartService.loadCartFromDB(); 
+        }
       } else {
         this.showToast("Failed to load products from database.", "error");
       }
@@ -469,7 +503,7 @@ window.addEventListener('scroll', () => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     window.closeProductModal();
-    window.closeSignIn();
+    window.closeAuthModal();
     window.closeCheckout();
     if (!document.getElementById('sidebar').classList.contains('hidden')) window.toggleSidebar();
     if (document.getElementById('cart-drawer').classList.contains('open')) window.toggleCart();
@@ -513,8 +547,12 @@ window.setView = (view) => {
 };
 window.loadMore = () => { AppState.displayedCount += 8; UIController.renderProducts(); };
 
-// Cart Actions
+// ✨ SECURE Cart Actions
 window.addToCart = (id) => {
+  if (!localStorage.getItem('desideal_token')) {
+    UIController.showToast('<i class="fas fa-lock"></i> Please sign in to add items.', 'error');
+    return window.showAuthModal('signin');
+  }
   CartService.addItem(id, 1);
   UIController.updateCartUI();
   const product = PRODUCTS.find(p => p.id === id);
@@ -522,9 +560,12 @@ window.addToCart = (id) => {
     UIController.showToast(`<i class="fas fa-check-circle"></i> <span><strong>${product.title.substring(0, 30)}...</strong> added!</span>`, 'success');
   }
   const icon = document.querySelector('#cart-toggle-btn .cart-icon-wrapper');
-  icon.style.transform = 'scale(1.3)';
-  setTimeout(() => icon.style.transform = 'scale(1)', 300);
+  if (icon) {
+    icon.style.transform = 'scale(1.3)';
+    setTimeout(() => icon.style.transform = 'scale(1)', 300);
+  }
 };
+
 window.updateCartQty = (id, delta) => { CartService.updateQty(id, delta); UIController.updateCartUI(); };
 window.removeFromCart = (id) => { CartService.removeItem(id); UIController.updateCartUI(); UIController.showToast('<i class="fas fa-trash"></i> <span>Item removed</span>', 'error'); };
 window.toggleCart = () => {
@@ -543,8 +584,12 @@ window.applyPromo = () => {
   }
 };
 
-// Wishlist
+// ✨ SECURE Wishlist
 window.toggleWishlist = (id) => {
+  if (!localStorage.getItem('desideal_token')) {
+    UIController.showToast('<i class="fas fa-lock"></i> Please sign in to use wishlist.', 'error');
+    return window.showAuthModal('signin');
+  }
   const idx = AppState.wishlist.indexOf(id);
   if (idx > -1) {
     AppState.wishlist.splice(idx, 1);
@@ -563,8 +608,21 @@ window.toggleSidebar = () => {
   sidebar.classList.toggle('hidden');
   document.body.style.overflow = sidebar.classList.contains('hidden') ? '' : 'hidden';
 };
-window.showSignIn = () => { document.getElementById('signin-modal-overlay').classList.add('active'); document.getElementById('signin-modal').classList.add('active'); };
-window.closeSignIn = () => { document.getElementById('signin-modal-overlay').classList.remove('active'); document.getElementById('signin-modal').classList.remove('active'); };
+
+// ✨ NEW PROFESSIONAL AUTH MODAL TOGGLES
+window.showAuthModal = (view = 'signin') => { 
+  document.getElementById('auth-modal-overlay').classList.add('active'); 
+  document.getElementById('auth-modal').classList.add('active'); 
+  window.toggleAuthView(view);
+};
+window.closeAuthModal = () => { 
+  document.getElementById('auth-modal-overlay').classList.remove('active'); 
+  document.getElementById('auth-modal').classList.remove('active'); 
+};
+window.toggleAuthView = (view) => {
+  document.getElementById('signin-container').classList.toggle('hidden', view !== 'signin');
+  document.getElementById('signup-container').classList.toggle('hidden', view !== 'signup');
+};
 
 // ── REAL FULL-STACK AUTHENTICATION ──
 window.handleSignIn = async (e) => {
@@ -582,10 +640,14 @@ window.handleSignIn = async (e) => {
     const data = await response.json();
 
     if (data.success) {
+      const firstName = data.user.name.split(' ')[0];
       localStorage.setItem('desideal_token', data.token);
-      window.closeSignIn();
+      localStorage.setItem('desideal_name', firstName); 
+      
+      window.closeAuthModal();
       UIController.showToast(`<i class="fas fa-user-check"></i> <span>Welcome back, <strong>${data.user.name}</strong>!</span>`, 'success');
-      document.querySelector('#account-btn .bold-label').textContent = `Hello, ${data.user.name.split(' ')[0]} ▾`;
+      
+      UIController.updateAuthUI(); // ✨ Instantly update the UI buttons
       document.getElementById('signin-form').reset();
       
       // Step 7: When user logs in, load their saved cart from MongoDB
@@ -598,13 +660,27 @@ window.handleSignIn = async (e) => {
   }
 };
 
-window.handleRegister = async () => {
-  const name = prompt("Enter your name:");
-  if (!name) return;
-  const email = prompt("Enter your email:");
-  if (!email) return;
-  const password = prompt("Enter a password:");
-  if (!password) return;
+window.handleSignOut = () => {
+  // 1. Remove the security token and name
+  localStorage.removeItem('desideal_token');
+  localStorage.removeItem('desideal_name');
+  
+  // 2. Clear the cart securely
+  AppState.cart = [];
+  localStorage.setItem('desideal_cart', JSON.stringify([]));
+  UIController.updateCartUI();
+  
+  UIController.updateAuthUI(); // ✨ Instantly update the UI buttons back to signed-out state
+  
+  UIController.showToast('<i class="fas fa-sign-out-alt"></i> Signed out successfully.', 'info');
+};
+
+// ✨ REAL HTML REGISTRATION
+window.handleRegister = async (e) => {
+  e.preventDefault(); // ✨ Prevent page reload on submit
+  const name = document.getElementById('signup-name').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
 
   try {
     const response = await fetch('http://localhost:5000/api/register', {
@@ -617,6 +693,9 @@ window.handleRegister = async () => {
     
     if (data.success) {
       UIController.showToast(`<i class="fas fa-check"></i> <span>Account created! You can now log in.</span>`, 'success');
+      document.getElementById('signup-form').reset();
+      window.toggleAuthView('signin'); 
+      document.getElementById('signin-email').value = email; // Pre-fill their email
     } else {
       UIController.showToast(`<i class="fas fa-times"></i> <span>${data.message}</span>`, 'error');
     }
@@ -625,8 +704,8 @@ window.handleRegister = async () => {
   }
 };
 
-window.togglePassword = () => {
-  const input = document.getElementById('signin-password');
+window.togglePassword = (inputId) => {
+  const input = document.getElementById(inputId);
   const isPass = input.type === 'password';
   input.type = isPass ? 'text' : 'password';
   input.nextElementSibling.innerHTML = isPass ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
@@ -670,7 +749,19 @@ window.openProductModal = (id) => {
 };
 window.closeProductModal = () => { document.getElementById('product-modal-overlay').classList.remove('active'); document.getElementById('product-modal').classList.remove('active'); };
 window.changeModalQty = (delta) => { AppState.modalQty = Math.max(1, Math.min(CONFIG.MAX_QTY, AppState.modalQty + delta)); document.getElementById('modal-qty-display').textContent = AppState.modalQty; };
-window.addToCartFromModal = (id) => { CartService.addItem(id, AppState.modalQty); UIController.updateCartUI(); window.closeProductModal(); UIController.showToast('Added to cart!', 'success'); };
+
+// ✨ SECURE Add to Cart from Modal
+window.addToCartFromModal = (id) => { 
+  if (!localStorage.getItem('desideal_token')) {
+    window.closeProductModal();
+    UIController.showToast('<i class="fas fa-lock"></i> Please sign in to add items.', 'error');
+    return window.showAuthModal('signin');
+  }
+  CartService.addItem(id, AppState.modalQty); 
+  UIController.updateCartUI(); 
+  window.closeProductModal(); 
+  UIController.showToast('Added to cart!', 'success'); 
+};
 
 // Slider
 window.changeSlide = (direction) => {
@@ -712,13 +803,13 @@ window.goToCheckout = () => {
 };
 window.closeCheckout = () => document.getElementById('checkout-overlay').classList.add('hidden');
 
-// Step 8: Real Database Orders
+// ✨ SECURE Razorpay Integration (Step 9)
 window.placeOrder = async () => {
   const token = localStorage.getItem('desideal_token');
   if (!token) {
     UIController.showToast('<i class="fas fa-lock"></i> Please sign in to place an order.', 'error');
     window.closeCheckout();
-    window.showSignIn();
+    window.showAuthModal('signin');
     return;
   }
 
@@ -728,40 +819,66 @@ window.placeOrder = async () => {
   }
 
   const totals = CartService.calculateTotals();
-  
-  const shippingInfo = {
-    address: "User Address from Checkout Form" 
-  };
+  const shippingInfo = { address: "User Address from Checkout Form" };
 
   try {
-    const response = await fetch('http://localhost:5000/api/orders', {
+    // 1. Ask Backend to create a Razorpay Order
+    const orderRes = await fetch('http://localhost:5000/api/payment/create-order', {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` 
-      },
-      body: JSON.stringify({ 
-        items: AppState.cart, 
-        total: totals.total,
-        shipping: shippingInfo
-      })
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ total: totals.total })
     });
-    
-    const data = await response.json();
-    
-    if (data.success) {
-      document.getElementById('order-number').textContent = `Order #${data.order_number}`;
-      window.closeCheckout();
-      document.getElementById('order-success-overlay').classList.remove('hidden');
+    const orderData = await orderRes.json();
+
+    if (!orderData.success) throw new Error("Could not create order");
+
+    // 2. Open Razorpay Checkout Window
+    const options = {
+      key: orderData.key_id, 
+      amount: orderData.amount, 
+      currency: "INR",
+      name: "DesiDeal.in",
+      description: "Test Transaction",
+      order_id: orderData.razorpay_order_id,
       
-      AppState.cart = [];
-      localStorage.setItem('desideal_cart', JSON.stringify([]));
-      UIController.updateCartUI();
-    } else {
-      UIController.showToast(data.message, 'error');
-    }
+      // 3. What happens when payment is successful
+      handler: async function (response) {
+        // 4. Send payment proof & cart to backend for verification and saving
+        const verifyRes = await fetch('http://localhost:5000/api/orders/verify-and-save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ 
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            items: AppState.cart, 
+            total: totals.total,
+            shipping: shippingInfo
+          })
+        });
+
+        const verifyData = await verifyRes.json();
+
+        if (verifyData.success) {
+          document.getElementById('order-number').textContent = `Order #${verifyData.order_number}`;
+          window.closeCheckout();
+          document.getElementById('order-success-overlay').classList.remove('hidden');
+          
+          AppState.cart = [];
+          localStorage.setItem('desideal_cart', JSON.stringify([]));
+          UIController.updateCartUI();
+        } else {
+          UIController.showToast(verifyData.message, 'error');
+        }
+      },
+      theme: { color: "#FF9933" }
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
   } catch (error) {
-    UIController.showToast('<i class="fas fa-wifi"></i> Failed to place order. Server error.', 'error');
+    UIController.showToast('<i class="fas fa-wifi"></i> Payment system error.', 'error');
   }
 };
 window.closeOrderSuccess = () => document.getElementById('order-success-overlay').classList.add('hidden');
