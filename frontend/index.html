@@ -28,9 +28,9 @@
     .auth-switch-link { color: #007185; cursor: pointer; font-weight: 500; }
     .auth-switch-link:hover { color: #C7511F; text-decoration: underline; }
     
-    /* ─── CHECKOUT UI FIXES ─── */
-    #checkout-header .logo-main { background: none !important; -webkit-text-fill-color: #111 !important; color: #111 !important; }
-    #checkout-header .logo-dot { color: #FF9933 !important; }
+    /* ─── LOGO VISIBILITY FIXES (For White Backgrounds) ─── */
+    #checkout-header .logo-main, #auth-logo .logo-main { background: none !important; -webkit-text-fill-color: #111 !important; color: #111 !important; }
+    #checkout-header .logo-dot, #auth-logo .logo-dot { color: #FF9933 !important; }
   </style>
 </head>
 <body>
@@ -161,7 +161,8 @@
         <li><a href="profile.html"><i class="fas fa-user"></i> Your Account</a></li>
         <li><a href="#"><i class="fas fa-crown"></i> Prime Membership</a></li>
         <li><a href="#"><i class="fas fa-headset"></i> Customer Service</a></li>
-        <li><a href="#" onclick="window.showAuthModal('signin'); toggleSidebar()"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+        <li id="sidebar-signin-link"><a href="#" onclick="window.showAuthModal('signin'); toggleSidebar()"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+        <li id="sidebar-signout-link" class="hidden"><a href="#" onclick="window.handleSignOut(); toggleSidebar()"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
       </ul>
     </div>
   </div>
@@ -571,19 +572,19 @@
           <h3><span class="step-num">2</span> Payment Method</h3>
           
           <div class="payment-options">
-            <div class="payment-option selected" onclick="selectPaymentOption('card')">
+            <div class="payment-option selected" onclick="handlePaymentSelection('card', this)">
               <input type="radio" name="payment" value="card" checked style="display:none;" />
               <i class="fas fa-credit-card"></i> Credit/Debit Card
             </div>
-            <div class="payment-option" onclick="selectPaymentOption('upi')">
+            <div class="payment-option" onclick="handlePaymentSelection('upi', this)">
               <input type="radio" name="payment" value="upi" style="display:none;" />
               <i class="fab fa-google-pay"></i> UPI
             </div>
-            <div class="payment-option" onclick="selectPaymentOption('desideal')">
+            <div class="payment-option" onclick="handlePaymentSelection('desideal', this)">
               <input type="radio" name="payment" value="desideal" style="display:none;" />
               <i class="fas fa-wallet"></i> DesiDeal Pay
             </div>
-            <div class="payment-option" onclick="selectPaymentOption('cod')">
+            <div class="payment-option" onclick="handlePaymentSelection('cod', this)">
               <input type="radio" name="payment" value="cod" style="display:none;" />
               <i class="fas fa-money-bill-wave"></i> Cash on Delivery
             </div>
@@ -641,6 +642,29 @@
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  function handlePaymentSelection(method, element) {
+    // Remove "selected" highlight from all buttons
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+    
+    // Highlight the clicked button
+    element.classList.add('selected');
+    
+    // Uncheck all radios first
+    document.querySelectorAll('input[name="payment"]').forEach(radio => radio.checked = false);
+
+    // Check the hidden radio input inside the clicked element
+    element.querySelector('input').checked = true;
+    
+    // Show or hide the credit card form depending on the choice
+    const cardForm = document.getElementById('card-form');
+    if (cardForm) {
+      cardForm.style.display = (method === 'card') ? 'block' : 'none';
+    }
+  }
+</script>
+
 <script src="js/main.js"></script>
 </body>
 </html>
