@@ -159,6 +159,7 @@ img { max-width: 100%; }
   letter-spacing: -0.5px;
   background: linear-gradient(to right, #ffffff, #f0f2f2);
   -webkit-background-clip: text;
+  background-clip: text; /* Added standard property */
   -webkit-text-fill-color: transparent;
 }
 
@@ -825,6 +826,7 @@ img { max-width: 100%; }
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2; /* Added standard property */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1763,3 +1765,10 @@ img { max-width: 100%; }
 
 .auth-switch-link { color: #007185; cursor: pointer; font-weight: 500; }
 .auth-switch-link:hover { color: #C7511F; text-decoration: underline; }
+/* ─── CHECKOUT UI FIXES ─── */
+#checkout-header .logo-main {
+    color: #111 !important; /* Forces the text to be dark grey/black */
+}
+#checkout-header .logo-dot {
+    color: #FF9933 !important; /* Keeps the orange dot */
+}
