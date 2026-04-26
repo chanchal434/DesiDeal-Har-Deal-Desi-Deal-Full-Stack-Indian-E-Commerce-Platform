@@ -27,6 +27,10 @@
     .password-wrapper button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #565959; cursor: pointer; }
     .auth-switch-link { color: #007185; cursor: pointer; font-weight: 500; }
     .auth-switch-link:hover { color: #C7511F; text-decoration: underline; }
+    
+    /* ─── CHECKOUT UI FIXES ─── */
+    #checkout-header .logo-main { background: none !important; -webkit-text-fill-color: #111 !important; color: #111 !important; }
+    #checkout-header .logo-dot { color: #FF9933 !important; }
   </style>
 </head>
 <body>
@@ -41,7 +45,7 @@
 <header id="main-header">
   <div class="container header-inner">
 
-    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0;">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
       <div>
         <span class="logo-main">DesiDeal</span>
         <span class="logo-dot">.in</span>
@@ -359,7 +363,7 @@
     <div class="footer-col">
       <h4>Get to Know Us</h4>
       <ul>
-        <li><a href="#">About DesiDeal</a></li>
+        <li><a href="about.html">About DesiDeal</a></li>
         <li><a href="#">Careers</a></li>
         <li><a href="#">Press Releases</a></li>
         <li><a href="#">Sustainability</a></li>
@@ -386,7 +390,7 @@
     <div class="footer-col">
       <h4>Let Us Help You</h4>
       <ul>
-        <li><a href="#">Your Account</a></li>
+        <li><a href="profile.html">Your Account</a></li>
         <li><a href="#">Your Orders</a></li>
         <li><a href="#">Shipping Rates</a></li>
         <li><a href="#">Returns &amp; Replacements</a></li>
@@ -565,24 +569,26 @@
         </section>
         <section class="checkout-section">
           <h3><span class="step-num">2</span> Payment Method</h3>
+          
           <div class="payment-options">
-            <label class="payment-option selected">
-              <input type="radio" name="payment" value="card" checked/>
+            <div class="payment-option selected" onclick="selectPaymentOption('card')">
+              <input type="radio" name="payment" value="card" checked style="display:none;" />
               <i class="fas fa-credit-card"></i> Credit/Debit Card
-            </label>
-            <label class="payment-option">
-              <input type="radio" name="payment" value="upi"/>
+            </div>
+            <div class="payment-option" onclick="selectPaymentOption('upi')">
+              <input type="radio" name="payment" value="upi" style="display:none;" />
               <i class="fab fa-google-pay"></i> UPI
-            </label>
-            <label class="payment-option">
-              <input type="radio" name="payment" value="desideal"/>
+            </div>
+            <div class="payment-option" onclick="selectPaymentOption('desideal')">
+              <input type="radio" name="payment" value="desideal" style="display:none;" />
               <i class="fas fa-wallet"></i> DesiDeal Pay
-            </label>
-            <label class="payment-option">
-              <input type="radio" name="payment" value="cod"/>
+            </div>
+            <div class="payment-option" onclick="selectPaymentOption('cod')">
+              <input type="radio" name="payment" value="cod" style="display:none;" />
               <i class="fas fa-money-bill-wave"></i> Cash on Delivery
-            </label>
+            </div>
           </div>
+          
           <div class="checkout-form" id="card-form">
             <div class="form-group">
               <label>Card Number</label>
@@ -635,7 +641,6 @@
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <script src="js/main.js"></script>
 </body>
 </html>
