@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* Hero Section */
+    .about-hero {
+        background: linear-gradient(135deg, #131921 0%, #232F3E 100%);
+        color: #fff;
+        padding: 80px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .about-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: #f4f6f8;
+        transform: skewY(-2deg);
+    }
+    .about-hero h1 {
+        font-size: 52px;
+        font-weight: 800;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 2;
+    }
+    .about-hero h1 span { color: #FF9933; }
+    .about-hero p {
+        font-size: 18px;
+        color: rgba(255,255,255,0.8);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Main Content Container */
+    .about-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+    }
+
+    /* Our Story Section */
+    .story-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+    .story-text h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 24px;
+        position: relative;
+        display: inline-block;
+    }
+    .story-text h2::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: #FF9933;
+        border-radius: 2px;
+    }
+    .story-text p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+    .story-image {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        transform: rotate(2deg);
+        transition: transform 0.4s ease;
+    }
+    .story-image:hover { transform: rotate(0deg); }
+    .story-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Stats Section */
+    .stats-container {
+        display: flex;
+        justify-content: space-around;
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-bottom: 80px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+        font-size: 42px;
+        font-weight: 800;
+        color: #007185;
+        margin-bottom: 8px;
+    }
+    .stat-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Core Values Grid */
+    .values-section { text-align: center; }
+    .values-section h2 { font-size: 36px; font-weight: 700; color: #111; margin-bottom: 50px; }
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+    }
+    .value-card {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        transition: all 0.3s ease;
+        border-bottom: 4px solid transparent;
+    }
+    .value-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        border-color: #FF9933;
+    }
+    .value-icon {
+        width: 70px;
+        height: 70px;
+        background: #f0f8ff;
+        color: #007185;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin: 0 auto 20px;
+        transition: background 0.3s, color 0.3s;
+    }
+    .value-card:hover .value-icon { background: #FF9933; color: #fff; }
+    .value-card h3 { font-size: 20px; color: #111; margin-bottom: 12px; font-weight: 700; }
+    .value-card p { font-size: 14px; color: #666; line-height: 1.6; }
+
+    @media (max-width: 900px) {
+        .story-section { grid-template-columns: 1fr; gap: 40px; }
+        .story-image { transform: none; }
+        .about-hero h1 { font-size: 38px; }
+    }
+  </style>
+</head>
+<body style="background-color: #f4f6f8;">
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-home"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="about-hero">
+    <h1>About <span>DesiDeal</span></h1>
+    <p>Empowering local sellers and delivering happiness to millions of homes across India. Har Deal, Desi Deal.</p>
+</section>
+
+<main class="about-container">
+    
+    <section class="story-section">
+        <div class="story-text">
+            <h2>Our Story</h2>
+            <p>Founded in 2026, DesiDeal started with a simple idea: to bridge the gap between high-quality local manufacturers and millions of Indian consumers who crave reliable, affordable products.</p>
+            <p>We noticed that massive global marketplaces were losing their personal touch. We wanted to build an ecosystem where every transaction felt secure, delivery was lightning-fast, and the deals were genuinely tailored for the desi heart.</p>
+            <p>Today, DesiDeal is more than just an e-commerce platform. It is a thriving community of over 50,000 sellers and millions of happy customers.</p>
+            <button class="btn-gold mt-sm" onclick="window.location.href='index.html'">Start Shopping Now</button>
+        </div>
+        <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="DesiDeal Team working together" />
+        </div>
+    </section>
+
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-number">2M+</div>
+            <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Local Sellers</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Secure Payments</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Customer Support</div>
+        </div>
+    </div>
+
+    <section class="values-section">
+        <h2>Our Core Values</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-truck-fast"></i></div>
+                <h3>Lightning Delivery</h3>
+                <p>Through our optimized logistics network, we ensure your products reach your doorstep safely and faster than industry standards.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-handshake"></i></div>
+                <h3>Absolute Trust</h3>
+                <p>With end-to-end SSL encryption and strict seller verification, every purchase you make on DesiDeal is 100% secure.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-tags"></i></div>
+                <h3>Unbeatable Value</h3>
+                <p>We work directly with brands and local artisans to cut out the middlemen, bringing the best prices directly to you.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-leaf"></i></div>
+                <h3>Sustainable Growth</h3>
+                <p>We are committed to eco-friendly packaging and supporting local communities to ensure our growth benefits the planet.</p>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="toast-container"></div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
