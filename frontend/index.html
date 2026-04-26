@@ -7,6 +7,27 @@
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* ─── AUTHENTICATION MODAL CSS ─── */
+    #auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    #auth-modal-overlay.active { opacity: 1; pointer-events: all; }
+    #auth-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: #fff; width: 90%; max-width: 400px; border-radius: 8px; padding: 30px; z-index: 2001; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: all 0.3s ease; }
+    #auth-modal.active { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+    #auth-logo { text-align: center; margin-bottom: 20px; }
+    #auth-logo .logo-main { font-size: 28px; font-weight: 700; color: #131921; }
+    #auth-logo .logo-dot { font-size: 28px; color: #FF9933; }
+    #auth-modal h2 { font-size: 24px; margin-bottom: 20px; font-weight: 500; }
+    .form-group { margin-bottom: 15px; text-align: left; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #111; }
+    .form-group input { width: 100%; padding: 10px 12px; border: 1px solid #a6a6a6; border-radius: 4px; font-size: 14px; }
+    .form-group input:focus { border-color: #FF9933; outline: none; box-shadow: 0 0 0 2px rgba(255,153,51,0.2); }
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 40px; }
+    .password-wrapper button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #565959; cursor: pointer; }
+    .auth-switch-link { color: #007185; cursor: pointer; font-weight: 500; }
+    .auth-switch-link:hover { color: #C7511F; text-decoration: underline; }
+  </style>
 </head>
 <body>
 
@@ -52,24 +73,24 @@
     </div>
 
     <div id="header-actions">
-      <div class="header-btn" id="account-btn">
+      <div class="header-btn" id="account-btn" onclick="if(!localStorage.getItem('desideal_token')) window.showAuthModal('signin')">
         <i class="fas fa-user"></i>
         <div>
-          <span class="small-label">Hello, Sign in</span>
+          <span class="small-label" id="nav-user-greeting">Hello, Sign in</span>
           <span class="bold-label">Account &amp; Lists <i class="fas fa-caret-down"></i></span>
         </div>
-        <div id="account-dropdown">
-          <div class="dropdown-header">
-            <button class="btn-primary" onclick="showSignIn()">Sign In</button>
-            <p>New customer? <a href="#">Start here.</a></p>
+        <div id="account-dropdown" onclick="event.stopPropagation()">
+          <div class="dropdown-header" id="nav-dropdown-header">
+            <button class="btn-primary" onclick="window.showAuthModal('signin')">Sign In</button>
+            <p>New customer? <a href="#" class="auth-switch-link" onclick="window.showAuthModal('signup')">Start here.</a></p>
           </div>
           <ul>
             <li><a href="#"><i class="fas fa-list"></i> Your Orders</a></li>
             <li><a href="#"><i class="fas fa-heart"></i> Your Wishlist</a></li>
             <li><a href="#"><i class="fas fa-star"></i> Prime Membership</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
+            <li><a href="profile.html"><i class="fas fa-cog"></i> Account Settings</a></li>
             <li class="divider"></li>
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+            <li id="nav-signout" class="hidden"><a href="#" onclick="window.handleSignOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
           </ul>
         </div>
       </div>
@@ -133,10 +154,10 @@
     <div class="sidebar-section">
       <h3>Help &amp; Settings</h3>
       <ul>
-        <li><a href="#"><i class="fas fa-user"></i> Your Account</a></li>
+        <li><a href="profile.html"><i class="fas fa-user"></i> Your Account</a></li>
         <li><a href="#"><i class="fas fa-crown"></i> Prime Membership</a></li>
         <li><a href="#"><i class="fas fa-headset"></i> Customer Service</a></li>
-        <li><a href="#"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+        <li><a href="#" onclick="window.showAuthModal('signin'); toggleSidebar()"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
       </ul>
     </div>
   </div>
@@ -438,28 +459,57 @@
 
 <div id="toast-container"></div>
 
-<div id="signin-modal-overlay" onclick="closeSignIn()"></div>
-<div id="signin-modal">
-  <button class="modal-close-btn" onclick="closeSignIn()"><i class="fas fa-times"></i></button>
-  <div id="signin-logo">
-    <div>
-      <span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span>
-    </div>
+<div id="auth-modal-overlay" onclick="closeAuthModal()"></div>
+<div id="auth-modal">
+  <button class="modal-close-btn" onclick="closeAuthModal()" style="position:absolute; right:15px; top:15px; background:none; border:none; font-size:20px; cursor:pointer;"><i class="fas fa-times"></i></button>
+  <div id="auth-logo">
+    <span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span>
   </div>
-  <h2>Sign In</h2>
-  <form id="signin-form" onsubmit="handleSignIn(event)">
-    <label>Email or mobile phone number</label>
-    <input type="email" id="signin-email" placeholder="Email or mobile" required/>
-    <label>Password</label>
-    <div class="password-wrapper">
-      <input type="password" id="signin-password" placeholder="Password" required/>
-      <button type="button" onclick="togglePassword()"><i class="fas fa-eye"></i></button>
-    </div>
-    <button type="submit" class="btn-gold full-width">Sign In</button>
-    <p class="terms-text">By signing in, you agree to DesiDeal's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
-  </form>
-  <div class="divider-text"><span>New to DesiDeal?</span></div>
-  <button class="btn-outline full-width" onclick="handleRegister()">Create your DesiDeal account</button>
+
+  <div id="signin-container">
+    <h2>Sign In</h2>
+    <form id="signin-form" onsubmit="handleSignIn(event)">
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="signin-email" placeholder="Email or mobile" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="signin-password" placeholder="Password" required />
+          <button type="button" onclick="togglePassword('signin-password')"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn-gold full-width">Continue</button>
+      <p class="terms-text mt-sm">By continuing, you agree to DesiDeal's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+    </form>
+    <div class="divider-text mt-sm"><span>New to DesiDeal?</span></div>
+    <button class="btn-outline full-width" onclick="toggleAuthView('signup')">Create your DesiDeal account</button>
+  </div>
+
+  <div id="signup-container" class="hidden">
+    <h2>Create account</h2>
+    <form id="signup-form" onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="signup-name" placeholder="First and last name" required />
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="signup-email" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="signup-password" placeholder="At least 6 characters" required minlength="6"/>
+          <button type="button" onclick="togglePassword('signup-password')"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn-gold full-width">Verify & Create Account</button>
+      <p class="terms-text mt-sm">By creating an account, you agree to DesiDeal's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+    </form>
+    <p class="terms-text mt-sm text-center">Already have an account? <span class="auth-switch-link" onclick="toggleAuthView('signin')">Sign in <i class="fas fa-caret-right"></i></span></p>
+  </div>
 </div>
 
 <div id="checkout-overlay" class="hidden">
@@ -528,6 +578,10 @@
               <input type="radio" name="payment" value="desideal"/>
               <i class="fas fa-wallet"></i> DesiDeal Pay
             </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="cod"/>
+              <i class="fas fa-money-bill-wave"></i> Cash on Delivery
+            </label>
           </div>
           <div class="checkout-form" id="card-form">
             <div class="form-group">
@@ -580,6 +634,7 @@
   </div>
 </div>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script src="js/main.js"></script>
 </body>
