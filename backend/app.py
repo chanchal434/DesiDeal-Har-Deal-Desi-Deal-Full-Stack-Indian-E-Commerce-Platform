@@ -129,15 +129,38 @@ def login_user():
 
 # ─── PROTECTED ROUTE (Requires JWT) ────────────────────────────
 
+# ─── PROTECTED ROUTE (Requires JWT) ────────────────────────────
+
 @app.route('/api/profile', methods=['GET'])
 @token_required
 def get_profile(current_user):
-    # This route only runs if the @token_required guard lets them through!
-    return jsonify({
-        "success": True,
-        "message": f"Welcome to your private profile, {current_user['name']}!",
-        "email": current_user['email']
-    })
+    # Remove the password hash before sending to the frontend!
+    user_data = {
+        "name": current_user.get('name'),
+        "email": current_user.get('email'),
+        "phone": current_user.get('phone', ''),
+        "location": current_user.get('location', ''),
+        "address": current_user.get('address', '')
+    }
+    return jsonify({"success": True, "user": user_data}), 200
+
+@app.route('/api/profile', methods=['PUT'])
+@token_required
+def update_profile(current_user):
+    data = request.get_json()
+    
+    # Update the user's document in MongoDB
+    users_collection.update_one(
+        {'_id': current_user['_id']},
+        {'$set': {
+            'name': data.get('name'),
+            'phone': data.get('phone'),
+            'location': data.get('location'),
+            'address': data.get('address')
+        }}
+    )
+    
+    return jsonify({"success": True, "message": "Profile updated!"}), 200
 
 
 # ─── CART SYSTEM ROUTES (Requires JWT) ─────────────────────────
