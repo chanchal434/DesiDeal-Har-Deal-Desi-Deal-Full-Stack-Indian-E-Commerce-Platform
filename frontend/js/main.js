@@ -803,7 +803,7 @@ window.goToCheckout = () => {
 };
 window.closeCheckout = () => document.getElementById('checkout-overlay').classList.add('hidden');
 
-// ✨ SECURE Razorpay Integration (Step 9)
+// ✨ SECURE Smart Payment Router (Razorpay + COD)
 window.placeOrder = async () => {
   const token = localStorage.getItem('desideal_token');
   if (!token) {
@@ -818,11 +818,41 @@ window.placeOrder = async () => {
     return;
   }
 
+  // 1. Check which payment method is selected
+  const selectedPaymentMethod = document.querySelector('input[name="payment"]:checked').value;
   const totals = CartService.calculateTotals();
   const shippingInfo = { address: "User Address from Checkout Form" };
 
+  // ─── ROUTE A: CASH ON DELIVERY ──────────────────────────────────
+  if (selectedPaymentMethod === 'cod') {
+    try {
+      const response = await fetch('http://localhost:5000/api/orders/cod', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ items: AppState.cart, total: totals.total, shipping: shippingInfo })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        document.getElementById('order-number').textContent = `Order #${data.order_number}`;
+        window.closeCheckout();
+        document.getElementById('order-success-overlay').classList.remove('hidden');
+        
+        AppState.cart = [];
+        localStorage.setItem('desideal_cart', JSON.stringify([]));
+        UIController.updateCartUI();
+      } else {
+        UIController.showToast(data.message, 'error');
+      }
+    } catch (error) {
+      UIController.showToast('<i class="fas fa-wifi"></i> Failed to place COD order.', 'error');
+    }
+    return; // Exit function so Razorpay doesn't trigger
+  }
+
+  // ─── ROUTE B: RAZORPAY / DIGITAL PAYMENT ────────────────────────
   try {
-    // 1. Ask Backend to create a Razorpay Order
     const orderRes = await fetch('http://localhost:5000/api/payment/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -832,18 +862,15 @@ window.placeOrder = async () => {
 
     if (!orderData.success) throw new Error("Could not create order");
 
-    // 2. Open Razorpay Checkout Window
     const options = {
       key: orderData.key_id, 
       amount: orderData.amount, 
       currency: "INR",
       name: "DesiDeal.in",
-      description: "Test Transaction",
+      description: "Secure Digital Payment",
       order_id: orderData.razorpay_order_id,
       
-      // 3. What happens when payment is successful
       handler: async function (response) {
-        // 4. Send payment proof & cart to backend for verification and saving
         const verifyRes = await fetch('http://localhost:5000/api/orders/verify-and-save', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
