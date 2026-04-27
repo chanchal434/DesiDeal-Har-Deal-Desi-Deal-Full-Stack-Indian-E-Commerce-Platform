@@ -10,6 +10,7 @@ The platform combines a clean and responsive frontend with a scalable backend ar
 ## Key Features:
 • Indian-focused UI with localized currency (₹) and experience
 • Dynamic product catalog with category filtering and search
+• Shopping cart and wishlist with persistent storage
 • Secure user authentication using JWT
 • Order management and checkout system
 • Admin panel for product and order management
