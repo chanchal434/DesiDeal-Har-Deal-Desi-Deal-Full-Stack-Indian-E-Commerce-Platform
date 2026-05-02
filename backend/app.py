@@ -18,8 +18,6 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# Initialize Bcrypt: This is our password hashing tool. 
-# It turns "password123" into something like "$2b$12$e..."
 bcrypt = Bcrypt(app) 
 
 # Database Connection using MongoDB Atlas
@@ -28,54 +26,38 @@ db = client.desideal_db
 products_collection = db.products
 users_collection = db.users
 orders_collection = db.orders 
+support_tickets_collection = db.support_tickets # NEW: Collection for Customer Service
 
-# Initialize Razorpay Client (For Step 9)
 razorpay_client = razorpay.Client(auth=(os.getenv('RAZORPAY_KEY_ID'), os.getenv('RAZORPAY_KEY_SECRET')))
 
 # =====================================================================
-# 2. SECURITY MIDDLEWARE (The "Bouncer")
+# 2. SECURITY MIDDLEWARE 
 # =====================================================================
 def token_required(f):
-    """
-    This is a decorator function. Any route that has @token_required above it
-    will force this code to run first before letting the user access the route.
-    It checks if the user has a valid "VIP wristband" (JWT).
-    """
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
-        
-        # 1. Check if the frontend sent the token in the headers
         if 'Authorization' in request.headers:
-            # Tokens are usually sent as "Bearer eyJhbGciOi..."
             token = request.headers['Authorization'].split(" ")[1] 
         
         if not token:
-            return jsonify({'message': 'Token is missing! VIP wristband required.'}), 401
+            return jsonify({'message': 'Token is missing! Please sign in.'}), 401
 
         try:
-            # 2. Decode the token using our super secret key
             data = jwt.decode(token, os.getenv('JWT_SECRET'), algorithms=["HS256"])
-            # 3. Find the user in the database using the email hidden inside the token
             current_user = users_collection.find_one({'email': data['email']})
         except:
-            # If the token is fake, altered, or expired, reject the request
             return jsonify({'message': 'Token is invalid or expired!'}), 401
 
-        # 4. If everything is good, proceed to the requested route, passing the user data
         return f(current_user, *args, **kwargs)
     return decorated
 
-
 # =====================================================================
-# 3. PUBLIC API ROUTES (No Login Required)
+# 3. PUBLIC API ROUTES
 # =====================================================================
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({
-        "success": True, 
-        "message": "Welcome to the DesiDeal API! Try visiting /api/products"
-    })
+    return jsonify({"success": True, "message": "Welcome to the DesiDeal API!"})
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
@@ -85,9 +67,8 @@ def get_products():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
-
 # =====================================================================
-# 4. AUTHENTICATION ROUTES (Registration & Login)
+# 4. AUTHENTICATION ROUTES
 # =====================================================================
 @app.route('/api/register', methods=['POST'])
 def register_user():
@@ -96,23 +77,21 @@ def register_user():
     password = data.get('password')
     name = data.get('name')
 
-    # Security Check: Ensure the email isn't already registered
     if users_collection.find_one({'email': email}):
         return jsonify({"success": False, "message": "User already exists!"}), 400
 
-    # Security Action: Hash the password before saving to the database
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     new_user = {
         "name": name,
         "email": email,
         "password": hashed_password,
-        "role": "user" 
+        "role": "user",
+        "is_prime": False # NEW: Prime status defaults to False
     }
     users_collection.insert_one(new_user)
     
     return jsonify({"success": True, "message": "Account created successfully!"}), 201
-
 
 @app.route('/api/login', methods=['POST'])
 def login_user():
@@ -122,11 +101,7 @@ def login_user():
 
     user = users_collection.find_one({'email': email})
 
-    # Security Check: Compare the typed plain password with the hashed password in DB
     if user and bcrypt.check_password_hash(user['password'], password):
-        
-        # Security Action: Generate the JWT (VIP Wristband)
-        # We pack the user's email into it and set it to expire in 24 hours
         token = jwt.encode({
             'email': user['email'],
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24) 
@@ -136,14 +111,56 @@ def login_user():
             "success": True, 
             "message": "Logged in successfully!",
             "token": token,
-            "user": {"name": user['name'], "email": user['email']}
+            "user": {
+                "name": user['name'], 
+                "email": user['email'],
+                "is_prime": user.get('is_prime', False) # Return Prime status
+            }
         }), 200
 
     return jsonify({"success": False, "message": "Invalid email or password!"}), 401
 
+# =====================================================================
+# 5. NEW: PRIME & CUSTOMER SERVICE ROUTES
+# =====================================================================
+@app.route('/api/join-prime', methods=['POST'])
+@token_required
+def join_prime(current_user):
+    if current_user.get('is_prime'):
+        return jsonify({"success": False, "message": "You are already a Prime member!"}), 400
+    
+    # Update user in DB
+    users_collection.update_one(
+        {'_id': current_user['_id']},
+        {'$set': {'is_prime': True}}
+    )
+    
+    return jsonify({"success": True, "message": "Welcome to DesiDeal Prime! Enjoy your benefits."}), 200
+
+@app.route('/api/support-ticket', methods=['POST'])
+@token_required
+def submit_ticket(current_user):
+    data = request.get_json()
+    subject = data.get('subject')
+    message = data.get('message')
+    
+    if not subject or not message:
+        return jsonify({"success": False, "message": "Subject and message are required."}), 400
+        
+    ticket = {
+        "user_email": current_user['email'],
+        "user_name": current_user['name'],
+        "subject": subject,
+        "message": message,
+        "status": "Open",
+        "date_created": datetime.datetime.utcnow()
+    }
+    
+    support_tickets_collection.insert_one(ticket)
+    return jsonify({"success": True, "message": "Your ticket has been submitted. Our team will contact you shortly."}), 201
 
 # =====================================================================
-# 5. PROTECTED USER PROFILE ROUTES (Requires JWT)
+# 6. PROTECTED USER PROFILE & CART ROUTES
 # =====================================================================
 @app.route('/api/profile', methods=['GET'])
 @token_required
@@ -161,16 +178,15 @@ def get_profile(current_user):
         "alt_phone": current_user.get('alt_phone', ''),
         "dob": current_user.get('dob', ''),
         "gender": current_user.get('gender', ''),
-        "addresses": current_user.get('addresses', [])
+        "addresses": current_user.get('addresses', []),
+        "is_prime": current_user.get('is_prime', False)
     }
     return jsonify({"success": True, "user": user_data}), 200
-
 
 @app.route('/api/profile', methods=['PUT'])
 @token_required
 def update_profile(current_user):
     data = request.get_json()
-    
     combined_name = f"{data.get('first_name', '')} {data.get('last_name', '')}".strip()
     
     users_collection.update_one(
@@ -188,150 +204,84 @@ def update_profile(current_user):
             'addresses': data.get('addresses', [])
         }}
     )
-    
     return jsonify({"success": True, "message": "Profile updated!", "name": combined_name}), 200
 
-
-# =====================================================================
-# 6. PROTECTED CART ROUTES (Requires JWT)
-# =====================================================================
 @app.route('/api/cart', methods=['GET'])
 @token_required
 def get_cart(current_user):
-    user_cart = current_user.get('cart', [])
-    return jsonify({
-        "success": True,
-        "cart": user_cart
-    }), 200
+    return jsonify({"success": True, "cart": current_user.get('cart', [])}), 200
 
 @app.route('/api/cart', methods=['POST'])
 @token_required
 def update_cart(current_user):
-    data = request.get_json()
-    new_cart = data.get('cart', [])
-    
-    users_collection.update_one(
-        {'_id': current_user['_id']},
-        {'$set': {'cart': new_cart}}
-    )
-    
-    return jsonify({
-        "success": True,
-        "message": "Cart saved to database!"
-    }), 200
-
+    users_collection.update_one({'_id': current_user['_id']}, {'$set': {'cart': request.get_json().get('cart', [])}})
+    return jsonify({"success": True, "message": "Cart saved to database!"}), 200
 
 # =====================================================================
-# 7. PROTECTED PAYMENT & ORDER ROUTES (Requires JWT)
+# 7. PROTECTED PAYMENT & ORDER ROUTES
 # =====================================================================
 @app.route('/api/orders/cod', methods=['POST'])
 @token_required
 def place_cod_order(current_user):
     data = request.get_json()
-    
-    cart_items = data.get('items', [])
-    total_amount = data.get('total', 0)
-    shipping_info = data.get('shipping', {})
-
     order_number = f"COD-{int(time.time())}"
     new_order = {
-        "order_number": order_number,
-        "user_email": current_user['email'],
-        "items": cart_items,
-        "total_amount": total_amount,
-        "shipping_info": shipping_info,
-        "payment_id": "Cash on Delivery",
-        "status": "Processing (Unpaid)",
-        "date": datetime.datetime.utcnow()
+        "order_number": order_number, "user_email": current_user['email'],
+        "items": data.get('items', []), "total_amount": data.get('total', 0),
+        "shipping_info": data.get('shipping', {}), "payment_id": "Cash on Delivery",
+        "status": "Processing (Unpaid)", "date": datetime.datetime.utcnow()
     }
-    
     orders_collection.insert_one(new_order)
     users_collection.update_one({'_id': current_user['_id']}, {'$set': {'cart': []}})
-    
     return jsonify({"success": True, "order_number": order_number}), 201
-
 
 @app.route('/api/payment/create-order', methods=['POST'])
 @token_required
 def create_payment_order(current_user):
     data = request.get_json()
-    amount_in_rupees = data.get('total', 0)
-    amount_in_paise = int(amount_in_rupees * 100)
-    
+    amount_in_paise = int(data.get('total', 0) * 100)
     try:
-        order_data = {
-            "amount": amount_in_paise,
-            "currency": "INR",
-            "receipt": f"receipt_{int(time.time())}",
-            "notes": {"email": current_user['email']}
-        }
-        razorpay_order = razorpay_client.order.create(data=order_data)
-        
+        razorpay_order = razorpay_client.order.create(data={
+            "amount": amount_in_paise, "currency": "INR",
+            "receipt": f"receipt_{int(time.time())}", "notes": {"email": current_user['email']}
+        })
         return jsonify({
-            "success": True, 
-            "razorpay_order_id": razorpay_order['id'],
-            "amount": amount_in_paise,
-            "key_id": os.getenv('RAZORPAY_KEY_ID') 
+            "success": True, "razorpay_order_id": razorpay_order['id'],
+            "amount": amount_in_paise, "key_id": os.getenv('RAZORPAY_KEY_ID') 
         }), 200
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
-
 
 @app.route('/api/orders/verify-and-save', methods=['POST'])
 @token_required
 def verify_and_save_order(current_user):
     data = request.get_json()
-    
-    razorpay_payment_id = data.get('razorpay_payment_id')
-    razorpay_order_id = data.get('razorpay_order_id')
-    razorpay_signature = data.get('razorpay_signature')
-    
-    cart_items = data.get('items', [])
-    total_amount = data.get('total', 0)
-    shipping_info = data.get('shipping', {})
-
     try:
         razorpay_client.utility.verify_payment_signature({
-            'razorpay_order_id': razorpay_order_id,
-            'razorpay_payment_id': razorpay_payment_id,
-            'razorpay_signature': razorpay_signature
+            'razorpay_order_id': data.get('razorpay_order_id'),
+            'razorpay_payment_id': data.get('razorpay_payment_id'),
+            'razorpay_signature': data.get('razorpay_signature')
         })
     except razorpay.errors.SignatureVerificationError:
-        return jsonify({"success": False, "message": "Payment verification failed! Hacker alert!"}), 400
+        return jsonify({"success": False, "message": "Payment verification failed!"}), 400
 
     order_number = f"DD-{int(time.time())}"
     new_order = {
-        "order_number": order_number,
-        "user_email": current_user['email'],
-        "items": cart_items,
-        "total_amount": total_amount,
-        "shipping_info": shipping_info,
-        "payment_id": razorpay_payment_id,
-        "status": "Paid & Processing",
-        "date": datetime.datetime.utcnow()
+        "order_number": order_number, "user_email": current_user['email'],
+        "items": data.get('items', []), "total_amount": data.get('total', 0),
+        "shipping_info": data.get('shipping', {}), "payment_id": data.get('razorpay_payment_id'),
+        "status": "Paid & Processing", "date": datetime.datetime.utcnow()
     }
-    
     orders_collection.insert_one(new_order)
     users_collection.update_one({'_id': current_user['_id']}, {'$set': {'cart': []}})
-    
     return jsonify({"success": True, "order_number": order_number}), 201
-
 
 @app.route('/api/orders', methods=['GET'])
 @token_required
 def get_orders(current_user):
     user_orders = list(orders_collection.find({'user_email': current_user['email']}, {'_id': 0}).sort("date", -1))
-    
-    return jsonify({
-        "success": True, 
-        "count": len(user_orders),
-        "orders": user_orders
-    }), 200
+    return jsonify({"success": True, "count": len(user_orders), "orders": user_orders}), 200
 
-
-# =====================================================================
-# 8. RUN SERVER
-# =====================================================================
 if __name__ == '__main__':
     print("🚀 Secure Flask Server is running on http://localhost:5000")
     app.run(debug=True, port=5000)
