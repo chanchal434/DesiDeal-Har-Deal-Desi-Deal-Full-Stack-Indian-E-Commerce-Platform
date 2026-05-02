@@ -38,7 +38,7 @@
 <div id="utility-bar">
   <div class="container flex-between">
     <span><i class="fas fa-shipping-fast"></i> Free shipping on orders over ₹499</span>
-    <span>Customer Service &nbsp;|&nbsp; <a href="#">Help</a> &nbsp;|&nbsp; <a href="#">Sell</a></span>
+    <span><a href="customer-service.html">Customer Service</a> &nbsp;|&nbsp; <a href="customer-service.html">Help</a> &nbsp;|&nbsp; <a href="#">Sell</a></span>
   </div>
 </div>
 
@@ -91,7 +91,7 @@
           <ul>
             <li><a href="#"><i class="fas fa-list"></i> Your Orders</a></li>
             <li><a href="#"><i class="fas fa-heart"></i> Your Wishlist</a></li>
-            <li><a href="#"><i class="fas fa-star"></i> Prime Membership</a></li>
+            <li><a href="prime.html"><i class="fas fa-star"></i> Prime Membership</a></li>
             <li><a href="profile.html"><i class="fas fa-cog"></i> Account Settings</a></li>
             <li class="divider"></li>
             <li id="nav-signout" class="hidden"><a href="#" onclick="window.handleSignOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
@@ -130,7 +130,7 @@
     <a href="#" onclick="filterCategory('sports')">Sports &amp; Outdoors</a>
     <a href="#" onclick="filterCategory('toys')">Toys &amp; Games</a>
     <a href="#" onclick="filterCategory('beauty')">Beauty</a>
-    <a href="#" class="highlight"><i class="fas fa-crown"></i> Prime</a>
+    <a href="prime.html" class="highlight"><i class="fas fa-crown"></i> Prime</a>
   </div>
 </nav>
 
@@ -159,8 +159,8 @@
       <h3>Help &amp; Settings</h3>
       <ul>
         <li><a href="profile.html"><i class="fas fa-user"></i> Your Account</a></li>
-        <li><a href="#"><i class="fas fa-crown"></i> Prime Membership</a></li>
-        <li><a href="#"><i class="fas fa-headset"></i> Customer Service</a></li>
+        <li><a href="prime.html"><i class="fas fa-crown"></i> Prime Membership</a></li>
+        <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
         <li id="sidebar-signin-link"><a href="#" onclick="window.showAuthModal('signin'); toggleSidebar()"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
         <li id="sidebar-signout-link" class="hidden"><a href="#" onclick="window.handleSignOut(); toggleSidebar()"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
       </ul>
@@ -324,7 +324,7 @@
 
 <section id="promo-section" class="container">
   <div id="promo-grid">
-    <div class="promo-card promo-prime" onclick="alert('Join Prime!')">
+    <div class="promo-card promo-prime" onclick="window.location.href='prime.html'">
       <i class="fas fa-crown"></i>
       <div>
         <h3>Try Prime Free</h3>
@@ -395,7 +395,7 @@
         <li><a href="#">Your Orders</a></li>
         <li><a href="#">Shipping Rates</a></li>
         <li><a href="#">Returns &amp; Replacements</a></li>
-        <li><a href="#">Help</a></li>
+        <li><a href="customer-service.html">Help</a></li>
       </ul>
     </div>
   </div>
@@ -664,7 +664,6 @@
     }
   }
 </script>
-
 <script src="js/main.js"></script>
 </body>
 </html>
