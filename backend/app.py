@@ -9,57 +9,73 @@ import datetime
 import time  
 from functools import wraps
 import certifi
-import razorpay  # NEW: Required for processing digital payments
+import razorpay
 
-# 1. Initialization
+# =====================================================================
+# 1. INITIALIZATION & SETUP
+# =====================================================================
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
-bcrypt = Bcrypt(app) # Initialize password hasher
 
-# Database Connection
+# Initialize Bcrypt: This is our password hashing tool. 
+# It turns "password123" into something like "$2b$12$e..."
+bcrypt = Bcrypt(app) 
+
+# Database Connection using MongoDB Atlas
 client = MongoClient(os.getenv("MONGO_URI"), tlsCAFile=certifi.where())
 db = client.desideal_db
 products_collection = db.products
 users_collection = db.users
 orders_collection = db.orders 
 
-# Initialize Razorpay Client
+# Initialize Razorpay Client (For Step 9)
 razorpay_client = razorpay.Client(auth=(os.getenv('RAZORPAY_KEY_ID'), os.getenv('RAZORPAY_KEY_SECRET')))
 
-# ─── SECURITY MIDDLEWARE (The Bouncer) ─────────────────────────
+# =====================================================================
+# 2. SECURITY MIDDLEWARE (The "Bouncer")
+# =====================================================================
 def token_required(f):
+    """
+    This is a decorator function. Any route that has @token_required above it
+    will force this code to run first before letting the user access the route.
+    It checks if the user has a valid "VIP wristband" (JWT).
+    """
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
+        
+        # 1. Check if the frontend sent the token in the headers
         if 'Authorization' in request.headers:
+            # Tokens are usually sent as "Bearer eyJhbGciOi..."
             token = request.headers['Authorization'].split(" ")[1] 
         
         if not token:
             return jsonify({'message': 'Token is missing! VIP wristband required.'}), 401
 
         try:
+            # 2. Decode the token using our super secret key
             data = jwt.decode(token, os.getenv('JWT_SECRET'), algorithms=["HS256"])
+            # 3. Find the user in the database using the email hidden inside the token
             current_user = users_collection.find_one({'email': data['email']})
         except:
+            # If the token is fake, altered, or expired, reject the request
             return jsonify({'message': 'Token is invalid or expired!'}), 401
 
+        # 4. If everything is good, proceed to the requested route, passing the user data
         return f(current_user, *args, **kwargs)
     return decorated
 
 
-# ─── PUBLIC API ROUTES ─────────────────────────────────────────
-
+# =====================================================================
+# 3. PUBLIC API ROUTES (No Login Required)
+# =====================================================================
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({
         "success": True, 
         "message": "Welcome to the DesiDeal API! Try visiting /api/products"
     })
-
-@app.route('/api/test', methods=['GET'])
-def test_api():
-    return jsonify({"success": True, "message": "Backend is running securely!"})
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
@@ -70,8 +86,9 @@ def get_products():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-# ─── AUTHENTICATION ROUTES (Register & Login) ──────────────────
-
+# =====================================================================
+# 4. AUTHENTICATION ROUTES (Registration & Login)
+# =====================================================================
 @app.route('/api/register', methods=['POST'])
 def register_user():
     data = request.get_json()
@@ -79,9 +96,11 @@ def register_user():
     password = data.get('password')
     name = data.get('name')
 
+    # Security Check: Ensure the email isn't already registered
     if users_collection.find_one({'email': email}):
         return jsonify({"success": False, "message": "User already exists!"}), 400
 
+    # Security Action: Hash the password before saving to the database
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     new_user = {
@@ -103,7 +122,11 @@ def login_user():
 
     user = users_collection.find_one({'email': email})
 
+    # Security Check: Compare the typed plain password with the hashed password in DB
     if user and bcrypt.check_password_hash(user['password'], password):
+        
+        # Security Action: Generate the JWT (VIP Wristband)
+        # We pack the user's email into it and set it to expire in 24 hours
         token = jwt.encode({
             'email': user['email'],
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24) 
@@ -119,8 +142,9 @@ def login_user():
     return jsonify({"success": False, "message": "Invalid email or password!"}), 401
 
 
-# ─── USER PROFILE ROUTES (Requires JWT) ────────────────────────
-
+# =====================================================================
+# 5. PROTECTED USER PROFILE ROUTES (Requires JWT)
+# =====================================================================
 @app.route('/api/profile', methods=['GET'])
 @token_required
 def get_profile(current_user):
@@ -168,8 +192,9 @@ def update_profile(current_user):
     return jsonify({"success": True, "message": "Profile updated!", "name": combined_name}), 200
 
 
-# ─── CART SYSTEM ROUTES (Requires JWT) ─────────────────────────
-
+# =====================================================================
+# 6. PROTECTED CART ROUTES (Requires JWT)
+# =====================================================================
 @app.route('/api/cart', methods=['GET'])
 @token_required
 def get_cart(current_user):
@@ -196,8 +221,9 @@ def update_cart(current_user):
     }), 200
 
 
-# ─── PAYMENT & ORDER ROUTES (Requires JWT) ─────────────────────
-
+# =====================================================================
+# 7. PROTECTED PAYMENT & ORDER ROUTES (Requires JWT)
+# =====================================================================
 @app.route('/api/orders/cod', methods=['POST'])
 @token_required
 def place_cod_order(current_user):
@@ -303,7 +329,9 @@ def get_orders(current_user):
     }), 200
 
 
-# ─── RUN SERVER ────────────────────────────────────────────────
+# =====================================================================
+# 8. RUN SERVER
+# =====================================================================
 if __name__ == '__main__':
     print("🚀 Secure Flask Server is running on http://localhost:5000")
     app.run(debug=True, port=5000)
