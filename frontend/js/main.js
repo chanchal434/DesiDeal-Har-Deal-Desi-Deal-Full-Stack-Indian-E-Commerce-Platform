@@ -22,7 +22,7 @@ class StoreConfig {
         'PRIME15': 15,
         'FLASH25': 25
     };
-    static API_BASE = 'http://127.0.0.1:5000/api';
+    static API_BASE = '/api';
 }
 
 class StateManager {
@@ -203,6 +203,7 @@ class UIManager {
     static updateAuthUI() {
         const token = localStorage.getItem('desideal_token');
         const userName = localStorage.getItem('desideal_name');
+        const isPrime = localStorage.getItem('desideal_prime') === 'true'; // UPDATED: Check for Prime Status
         
         const elements = {
             greeting: document.getElementById('nav-user-greeting'),
@@ -214,8 +215,13 @@ class UIManager {
         };
 
         if (token && userName) {
-            if (elements.greeting) elements.greeting.textContent = `Hello, ${userName}`;
-            if (elements.sidebarGreeting) elements.sidebarGreeting.textContent = `Hello, ${userName}`;
+            // UPDATED: Add Crown icon if user is Prime
+            const displayGreeting = isPrime 
+                ? `Hello, ${userName} <i class="fas fa-crown text-green" style="color: #FFD814 !important;" title="Prime Member"></i>` 
+                : `Hello, ${userName}`;
+
+            if (elements.greeting) elements.greeting.innerHTML = displayGreeting;
+            if (elements.sidebarGreeting) elements.sidebarGreeting.innerHTML = displayGreeting;
             if (elements.dropHeader) elements.dropHeader.classList.add('hidden');
             if (elements.signoutBtn) elements.signoutBtn.classList.remove('hidden');
             if (elements.sidebarSignIn) elements.sidebarSignIn.style.display = 'none';
@@ -485,7 +491,6 @@ class UIManager {
         const searchInput = document.getElementById('search-input');
         const searchBtn = document.getElementById('search-btn');
         
-        // Debounce implementation for performance optimization
         let timeout = null;
         if(searchInput && searchBtn) {
             searchInput.addEventListener('input', e => {
@@ -595,7 +600,6 @@ window.loadMore = () => {
     UIManager.renderProducts(); 
 };
 
-// --- Missing Slider Implementations Added ---
 window.changeSlide = (direction) => {
     const slides = document.querySelectorAll('.hero-slide');
     const dots = document.querySelectorAll('.dot');
@@ -615,7 +619,6 @@ window.goToSlide = (index) => {
     if(!slides.length || index < 0 || index >= slides.length) return;
     window.changeSlide(index - state.display.slideIndex);
 };
-// --------------------------------------------
 
 window.addToCart = (id) => {
     if (!localStorage.getItem('desideal_token')) {
@@ -726,6 +729,7 @@ window.handleSignIn = async (e) => {
             const firstName = data.user.name.split(' ')[0];
             localStorage.setItem('desideal_token', data.token);
             localStorage.setItem('desideal_name', firstName); 
+            localStorage.setItem('desideal_prime', data.user.is_prime); // UPDATED: Save Prime Status
             
             window.closeAuthModal();
             UIManager.showToast(`<i class="fas fa-user-check"></i> <span>Welcome back, <strong>${data.user.name}</strong>!</span>`, 'success');
@@ -745,6 +749,7 @@ window.handleSignIn = async (e) => {
 window.handleSignOut = () => {
     localStorage.removeItem('desideal_token');
     localStorage.removeItem('desideal_name');
+    localStorage.removeItem('desideal_prime'); // UPDATED: Clear Prime Status
     
     state.cart = [];
     localStorage.setItem('desideal_cart', JSON.stringify([]));
@@ -975,4 +980,58 @@ window.placeOrder = async () => {
 window.closeOrderSuccess = () => {
     const overlay = document.getElementById('order-success-overlay');
     if(overlay) overlay.classList.add('hidden');
+};
+
+// ── 6. PRIME & SUPPORT LOGIC ─────────────────────────────────
+
+window.handleJoinPrime = async () => {
+    const token = localStorage.getItem('desideal_token');
+    if (!token) return window.location.href = 'index.html'; // Force sign-in
+    
+    try {
+        const response = await fetch(`${StoreConfig.API_BASE}/join-prime`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            localStorage.setItem('desideal_prime', 'true');
+            UIManager.showToast(`<i class="fas fa-crown"></i> ${data.message}`, 'success');
+            
+            // Wait 2 seconds, then refresh index.html to show the golden crown!
+            setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        } else {
+            UIManager.showToast(`<i class="fas fa-info-circle"></i> ${data.message}`, 'info');
+        }
+    } catch (error) {
+        UIManager.showToast('Failed to connect to server.', 'error');
+    }
+};
+
+window.handleSupportTicket = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('desideal_token');
+    if (!token) return UIManager.showToast('Please sign in to submit a ticket.', 'error');
+
+    const subject = document.getElementById('ticket-subject').value;
+    const message = document.getElementById('ticket-message').value;
+
+    try {
+        const response = await fetch(`${StoreConfig.API_BASE}/support-ticket`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ subject, message })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            UIManager.showToast(`<i class="fas fa-check"></i> ${data.message}`, 'success');
+            e.target.reset(); // Clear the form so they don't submit twice
+        } else {
+            UIManager.showToast(data.message, 'error');
+        }
+    } catch (error) {
+        UIManager.showToast('Failed to submit ticket.', 'error');
+    }
 };
