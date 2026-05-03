@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders - DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .profile-container { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+
+    /* Sidebar Styles */
+    .profile-menu { background: #fff; border-radius: 12px; padding: 20px 0; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .profile-menu ul { list-style: none; padding: 0; margin: 0; }
+    .profile-menu li a { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: #444; text-decoration: none; font-weight: 500; font-size: 15px; border-left: 4px solid transparent; transition: all 0.2s ease; }
+    .profile-menu li a i { width: 20px; text-align: center; color: #888; font-size: 18px; }
+    .profile-menu li a:hover, .profile-menu li.active a { background: #fff8f5; color: #C7511F; border-left-color: #C7511F; }
+    .profile-menu li a:hover i, .profile-menu li.active a i { color: #C7511F; }
+
+    /* Content Area */
+    .profile-content { background: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .section-header { border-bottom: 2px solid #f0f2f5; padding-bottom: 15px; margin-bottom: 30px; }
+    .section-header h2 { margin: 0; font-size: 24px; color: #111; font-weight: 600; }
+
+    /* Orders List */
+    .order-card { border: 1px solid #eaedf0; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+    .order-header { background: #f0f2f5; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eaedf0; font-size: 13px; }
+    .order-header-info span { display: block; color: #555; margin-bottom: 4px; }
+    .order-header-info strong { color: #111; font-size: 14px; }
+    .order-body { padding: 20px; }
+    .order-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f0f2f5; }
+    .order-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .order-status { font-weight: 700; color: #067D62; margin-bottom: 10px; font-size: 15px; }
+
+    @media (max-width: 900px) { .profile-container { grid-template-columns: 1fr; } .order-header { flex-direction: column; align-items: flex-start; gap: 10px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="profile-container">
+    <aside class="profile-menu">
+        <ul>
+            <li><a href="profile.html"><i class="fas fa-user-cog"></i> Account Overview</a></li>
+            <li class="active"><a href="orders.html"><i class="fas fa-box-open"></i> Your Orders</a></li>
+            <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+            <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security & Privacy</a></li>
+            <li style="border-top: 1px solid #f0f2f5; margin-top: 10px; padding-top: 10px;"><a href="#" onclick="window.handleSignOut(); window.location.href='index.html'"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+        </ul>
+    </aside>
+
+    <section class="profile-content">
+        <div class="section-header">
+            <h2>Your Orders</h2>
+        </div>
+        <div id="orders-container">
+            <p style="color: #555;">Loading your orders...</p>
+        </div>
+    </section>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const token = localStorage.getItem('desideal_token');
+        if (!token) { window.location.href = 'index.html'; return; }
+
+        const container = document.getElementById('orders-container');
+
+        try {
+            const response = await fetch(`${StoreConfig.API_BASE}/orders`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+
+            if (data.success && data.orders.length > 0) {
+                container.innerHTML = data.orders.map(order => {
+                    const orderDate = new Date(order.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+                    
+                    const itemsHtml = order.items.map(item => {
+                        // Finding product title securely
+                        return `
+                        <div class="order-item">
+                            <div>
+                                <h4 style="font-size: 14px; margin: 0 0 5px 0;">Item ID: ${item.id}</h4>
+                                <p style="margin: 0; color: #555; font-size: 13px;">Qty: ${item.qty}</p>
+                            </div>
+                        </div>`;
+                    }).join('');
+
+                    return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-header-info">
+                                <span>ORDER PLACED</span>
+                                <strong>${orderDate}</strong>
+                            </div>
+                            <div class="order-header-info">
+                                <span>TOTAL</span>
+                                <strong>₹${order.total_amount.toFixed(2)}</strong>
+                            </div>
+                            <div class="order-header-info" style="text-align: right;">
+                                <span>ORDER #</span>
+                                <strong>${order.order_number}</strong>
+                            </div>
+                        </div>
+                        <div class="order-body">
+                            <div class="order-status">${order.status}</div>
+                            ${itemsHtml}
+                        </div>
+                    </div>`;
+                }).join('');
+            } else {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px 0;">
+                        <i class="fas fa-box-open" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
+                        <h3 style="color: #333;">You have no orders yet.</h3>
+                        <button class="btn-primary mt-sm" onclick="window.location.href='index.html'">Start Shopping</button>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            container.innerHTML = '<p style="color: red;">Failed to load orders. Please try again later.</p>';
+        }
+    });
+</script>
+</body>
+</html>
