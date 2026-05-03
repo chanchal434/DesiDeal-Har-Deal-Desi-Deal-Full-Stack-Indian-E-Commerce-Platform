@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sustainability - DesiDeal</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    .sus-hero { background: linear-gradient(135deg, #067D62 0%, #005f4b 100%); color: #fff; text-align: center; padding: 80px 20px; }
+    .sus-hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
+    .sus-hero p { font-size: 18px; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+    
+    .grid-section { max-width: 1100px; margin: 60px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+    .sus-card { text-align: center; }
+    .sus-card i { font-size: 64px; color: #067D62; margin-bottom: 20px; }
+    .sus-card h3 { font-size: 22px; color: #111; margin-bottom: 15px; }
+    .sus-card p { font-size: 15px; color: #555; line-height: 1.6; }
+  </style>
+</head>
+<body style="background-color: #f4f6f8;">
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="sus-hero">
+    <h1>Building a Greener Future</h1>
+    <p>At DesiDeal, we believe that delivering smiles shouldn't come at the cost of our planet. We are committed to achieving net-zero carbon emissions by 2040.</p>
+</section>
+
+<main class="grid-section">
+    <div class="sus-card">
+        <i class="fas fa-box-open"></i>
+        <h3>Sustainable Packaging</h3>
+        <p>We are actively eliminating single-use plastics from our delivery network. All DesiDeal boxes are made from 100% recycled cardboard.</p>
+    </div>
+    
+    <div class="sus-card">
+        <i class="fas fa-truck-monster"></i>
+        <h3>Electric Fleet</h3>
+        <p>Our goal is to have 10,000 custom electric delivery vehicles on the road in India by the end of next year, drastically reducing our carbon footprint.</p>
+    </div>
+
+    <div class="sus-card">
+        <i class="fas fa-solar-panel"></i>
+        <h3>Renewable Energy</h3>
+        <p>Our fulfillment centers and data hubs are transitioning to 100% renewable energy sources, utilizing massive solar arrays on facility rooftops.</p>
+    </div>
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
