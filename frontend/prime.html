@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DesiDeal Prime - Exclusive Benefits</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    .prime-hero {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #fff; text-align: center; padding: 80px 20px;
+    }
+    .prime-hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
+    .prime-hero h1 i { color: #FF9933; margin-right: 10px; }
+    .prime-hero p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
+    .benefit-card { background: #fff; padding: 40px 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-bottom: 4px solid #FF9933; }
+    .benefit-card i { font-size: 48px; color: #007185; margin-bottom: 20px; }
+    .benefit-card h3 { font-size: 20px; margin-bottom: 12px; font-weight: 700; }
+    .benefit-card p { color: #555; font-size: 14px; line-height: 1.6; }
+
+    .join-section { text-align: center; padding: 40px 20px 80px; }
+    .join-price { font-size: 36px; font-weight: 800; color: #111; margin-bottom: 20px; }
+    .join-price span { font-size: 16px; color: #555; font-weight: 400; }
+  </style>
+</head>
+<body style="background-color: #f4f6f8;">
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="prime-hero">
+    <h1><i class="fas fa-crown"></i>DesiDeal Prime</h1>
+    <p>Get the best of DesiDeal. Free, fast delivery on millions of items, exclusive deals, and endless entertainment.</p>
+</section>
+
+<main class="benefits-grid">
+    <div class="benefit-card">
+        <i class="fas fa-shipping-fast"></i>
+        <h3>Free & Fast Delivery</h3>
+        <p>Enjoy unlimited FREE One-Day and Two-Day delivery on eligible items to over 100 cities in India.</p>
+    </div>
+    <div class="benefit-card">
+        <i class="fas fa-tags"></i>
+        <h3>Exclusive Prime Deals</h3>
+        <p>Get exclusive 30-minute early access to top Lightning Deals every day. Never miss out on a massive sale.</p>
+    </div>
+    <div class="benefit-card">
+        <i class="fas fa-film"></i>
+        <h3>Unlimited Entertainment</h3>
+        <p>Enjoy instant access to exclusive Bollywood blockbusters, regional cinema, and DesiDeal Original series.</p>
+    </div>
+</main>
+
+<section class="join-section">
+    <div class="join-price">₹999 <span>/ year</span></div>
+    <button class="btn-gold btn-lg" onclick="handleJoinPrime()" style="padding: 15px 40px; font-size: 18px; box-shadow: 0 4px 15px rgba(255,153,51,0.3);">
+        Join Prime Now
+    </button>
+    <p style="margin-top: 15px; font-size: 13px; color: #666;">By signing up, you agree to the Prime Terms and Conditions.</p>
+</section>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
