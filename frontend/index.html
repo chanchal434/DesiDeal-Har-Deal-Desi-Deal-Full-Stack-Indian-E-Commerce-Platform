@@ -89,8 +89,8 @@
             <p>New customer? <a href="#" class="auth-switch-link" onclick="window.showAuthModal('signup')">Start here.</a></p>
           </div>
           <ul>
-            <li><a href="#"><i class="fas fa-list"></i> Your Orders</a></li>
-            <li><a href="#"><i class="fas fa-heart"></i> Your Wishlist</a></li>
+            <li><a href="orders.html"><i class="fas fa-list"></i> Your Orders</a></li>
+            <li><a href="wishlist.html"><i class="fas fa-heart"></i> Your Wishlist</a></li>
             <li><a href="prime.html"><i class="fas fa-star"></i> Prime Membership</a></li>
             <li><a href="profile.html"><i class="fas fa-cog"></i> Account Settings</a></li>
             <li class="divider"></li>
@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <div class="header-btn" id="returns-btn">
+      <div class="header-btn" id="returns-btn" onclick="window.location.href='orders.html'">
         <i class="fas fa-undo-alt"></i>
         <div>
           <span class="small-label">Returns</span>
@@ -392,7 +392,7 @@
       <h4>Let Us Help You</h4>
       <ul>
         <li><a href="profile.html">Your Account</a></li>
-        <li><a href="#">Your Orders</a></li>
+        <li><a href="orders.html">Your Orders</a></li>
         <li><a href="#">Shipping Rates</a></li>
         <li><a href="#">Returns &amp; Replacements</a></li>
         <li><a href="customer-service.html">Help</a></li>
@@ -664,6 +664,7 @@
     }
   }
 </script>
+
 <script src="js/main.js"></script>
 </body>
 </html>
