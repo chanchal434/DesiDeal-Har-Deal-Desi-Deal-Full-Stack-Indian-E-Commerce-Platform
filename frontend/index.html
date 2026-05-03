@@ -38,7 +38,7 @@
 <div id="utility-bar">
   <div class="container flex-between">
     <span><i class="fas fa-shipping-fast"></i> Free shipping on orders over ₹499</span>
-    <span><a href="customer-service.html">Customer Service</a> &nbsp;|&nbsp; <a href="customer-service.html">Help</a> &nbsp;|&nbsp; <a href="#">Sell</a></span>
+    <span><a href="customer-service.html">Customer Service</a> &nbsp;|&nbsp; <a href="customer-service.html">Help</a> &nbsp;|&nbsp; <a href="sell.html">Sell</a></span>
   </div>
 </div>
 
@@ -340,13 +340,13 @@
       </div>
       <button class="btn-primary">Shop Gift Cards</button>
     </div>
-    <div class="promo-card promo-sell">
+    <div class="promo-card promo-sell" onclick="window.location.href='sell.html'" style="cursor: pointer;">
       <i class="fas fa-store"></i>
       <div>
         <h3>Sell on DesiDeal</h3>
         <p>Reach millions of customers</p>
       </div>
-      <button class="btn-outline-dark">Start Selling</button>
+      <button class="btn-outline-dark" onclick="event.stopPropagation(); window.location.href='sell.html'">Start Selling</button>
     </div>
   </div>
 </section>
@@ -373,7 +373,7 @@
     <div class="footer-col">
       <h4>Make Money With Us</h4>
       <ul>
-        <li><a href="#">Sell products</a></li>
+        <li><a href="sell.html">Sell products</a></li>
         <li><a href="#">Become an Affiliate</a></li>
         <li><a href="#">Advertise Your Products</a></li>
         <li><a href="#">Self-Publish with Us</a></li>
