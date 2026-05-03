@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sell on DesiDeal - Grow Your Business</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    
+    .sell-hero {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+        padding: 80px 20px;
+        text-align: center;
+    }
+    .sell-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .sell-hero h1 span { color: #FF9933; }
+    .sell-hero p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .sell-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        margin: -40px auto 60px;
+        padding: 0 20px;
+    }
+
+    .benefits-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .benefits-box h2 { font-size: 24px; color: #111; margin-bottom: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+    .benefit-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+    .benefit-item i { font-size: 24px; color: #007185; margin-top: 4px; }
+    .benefit-item h4 { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 4px; }
+    .benefit-item p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .registration-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 4px solid #FF9933; }
+    .registration-box h2 { font-size: 24px; color: #111; margin-bottom: 8px; }
+    .registration-box p { font-size: 14px; color: #555; margin-bottom: 24px; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus { border-color: #FF9933; outline: none; box-shadow: 0 0 0 3px rgba(255,153,51,0.15); }
+
+    @media (max-width: 900px) { .sell-container { grid-template-columns: 1fr; margin-top: 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="sell-hero">
+    <h1>Become a <span>DesiDeal Seller</span></h1>
+    <p>Join India's fastest-growing marketplace. Reach millions of customers, utilize our world-class logistics, and grow your business today.</p>
+</section>
+
+<main class="sell-container">
+    <div class="benefits-box">
+        <h2>Why Sell on DesiDeal?</h2>
+        
+        <div class="benefit-item">
+            <i class="fas fa-users"></i>
+            <div>
+                <h4>Reach Millions of Customers</h4>
+                <p>Gain instant access to a massive audience of active shoppers across India who trust DesiDeal for their daily needs.</p>
+            </div>
+        </div>
+        
+        <div class="benefit-item">
+            <i class="fas fa-truck-fast"></i>
+            <div>
+                <h4>Stress-Free Logistics</h4>
+                <p>You pack it, we ship it. Utilize our advanced fulfillment network to deliver products quickly and reliably to over 100 cities.</p>
+            </div>
+        </div>
+        
+        <div class="benefit-item">
+            <i class="fas fa-wallet"></i>
+            <div>
+                <h4>Secure & Timely Payments</h4>
+                <p>Funds are deposited directly into your bank account securely and on time, every single week.</p>
+            </div>
+        </div>
+
+        <div class="benefit-item">
+            <i class="fas fa-chart-line"></i>
+            <div>
+                <h4>Powerful Seller Tools</h4>
+                <p>Get access to advanced analytics, inventory management, and promotional tools to help scale your brand.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="registration-box">
+        <h2>Start Your Journey</h2>
+        <p>Fill out this application to express your interest. Our seller onboarding team will contact you within 24 hours.</p>
+        
+        <form onsubmit="handleSellerApplication(event)">
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" id="seller-biz-name" placeholder="Enter your company or brand name" required />
+            </div>
+            
+            <div class="form-group">
+                <label>Contact Email</label>
+                <input type="email" id="seller-email" placeholder="Business email address" required />
+            </div>
+            
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="seller-phone" placeholder="10-digit mobile number" required maxlength="15" />
+            </div>
+            
+            <div class="form-group">
+                <label>Primary Product Category</label>
+                <select id="seller-category" required>
+                    <option value="">Select a category...</option>
+                    <option value="electronics">Electronics & Accessories</option>
+                    <option value="clothing">Fashion & Apparel</option>
+                    <option value="home">Home, Kitchen & Furniture</option>
+                    <option value="beauty">Beauty & Personal Care</option>
+                    <option value="toys">Toys, Kids & Baby</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-gold full-width" style="padding: 14px; font-size: 16px; margin-top: 10px;">Submit Application</button>
+            <p style="font-size: 12px; text-align: center; margin-top: 15px; color: #777;">By submitting, you agree to the DesiDeal Seller Agreement.</p>
+        </form>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+    function handleSellerApplication(e) {
+        e.preventDefault();
+        
+        // Ensure user is signed in before applying
+        if (!localStorage.getItem('desideal_token')) {
+            UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to your customer account first to apply as a seller.', 'error');
+            setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+            return;
+        }
+
+        UIManager.showToast('<i class="fas fa-check-circle"></i> Application received! Our team will contact you soon.', 'success');
+        e.target.reset();
+    }
+</script>
+</body>
+</html>
