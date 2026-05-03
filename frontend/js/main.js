@@ -747,15 +747,31 @@ window.handleSignIn = async (e) => {
 };
 
 window.handleSignOut = () => {
-    localStorage.removeItem('desideal_token');
-    localStorage.removeItem('desideal_name');
-    localStorage.removeItem('desideal_prime'); // UPDATED: Clear Prime Status
+    // 1. Trigger a confirmation pop-up
+    const userConfirmed = confirm("Are you sure you want to sign out of DesiDeal? You'll miss out on personalized deals!");
     
-    state.cart = [];
-    localStorage.setItem('desideal_cart', JSON.stringify([]));
-    UIManager.updateCartUI();
-    UIManager.updateAuthUI(); 
-    UIManager.showToast('<i class="fas fa-sign-out-alt"></i> Signed out successfully.', 'info');
+    // 2. Only proceed if the user clicked "OK"
+    if (userConfirmed) {
+        localStorage.removeItem('desideal_token');
+        localStorage.removeItem('desideal_name');
+        localStorage.removeItem('desideal_prime'); 
+        
+        state.cart = [];
+        localStorage.setItem('desideal_cart', JSON.stringify([]));
+        
+        UIManager.updateCartUI();
+        UIManager.updateAuthUI(); 
+        
+        UIManager.showToast('<i class="fas fa-sign-out-alt"></i> Signed out successfully.', 'info');
+        
+        // Optional: Redirect them to the homepage if they sign out from a protected page like profile.html
+        if (window.location.pathname.includes('profile.html') || 
+            window.location.pathname.includes('orders.html') || 
+            window.location.pathname.includes('wishlist.html') ||
+            window.location.pathname.includes('security.html')) {
+            window.location.href = 'index.html';
+        }
+    }
 };
 
 window.handleRegister = async (e) => {
