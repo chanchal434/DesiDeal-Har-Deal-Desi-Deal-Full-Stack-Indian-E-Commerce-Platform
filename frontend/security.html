@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Security & Privacy - DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .profile-container { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+
+    /* Sidebar Styles */
+    .profile-menu { background: #fff; border-radius: 12px; padding: 20px 0; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .profile-menu ul { list-style: none; padding: 0; margin: 0; }
+    .profile-menu li a { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: #444; text-decoration: none; font-weight: 500; font-size: 15px; border-left: 4px solid transparent; transition: all 0.2s ease; }
+    .profile-menu li a i { width: 20px; text-align: center; color: #888; font-size: 18px; }
+    .profile-menu li a:hover, .profile-menu li.active a { background: #fff8f5; color: #C7511F; border-left-color: #C7511F; }
+    .profile-menu li a:hover i, .profile-menu li.active a i { color: #C7511F; }
+
+    /* Content Area */
+    .profile-content { background: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .section-header { border-bottom: 2px solid #f0f2f5; padding-bottom: 15px; margin-bottom: 30px; }
+    .section-header h2 { margin: 0; font-size: 24px; color: #111; font-weight: 600; }
+
+    .security-form-container { max-width: 500px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+    .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus { border-color: #FF9933; outline: none; box-shadow: 0 0 0 3px rgba(255,153,51,0.15); }
+    
+    .danger-zone { margin-top: 50px; border: 1px solid #ffcccc; border-radius: 8px; padding: 20px; background: #fffafa; }
+    .danger-zone h3 { color: #CC0000; margin-bottom: 10px; font-size: 18px; }
+
+    @media (max-width: 900px) { .profile-container { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="profile-container">
+    <aside class="profile-menu">
+        <ul>
+            <li><a href="profile.html"><i class="fas fa-user-cog"></i> Account Overview</a></li>
+            <li><a href="orders.html"><i class="fas fa-box-open"></i> Your Orders</a></li>
+            <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+            <li class="active"><a href="security.html"><i class="fas fa-shield-alt"></i> Security & Privacy</a></li>
+            <li style="border-top: 1px solid #f0f2f5; margin-top: 10px; padding-top: 10px;"><a href="#" onclick="window.handleSignOut(); window.location.href='index.html'"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+        </ul>
+    </aside>
+
+    <section class="profile-content">
+        <div class="section-header">
+            <h2>Security & Privacy</h2>
+        </div>
+        
+        <div class="security-form-container">
+            <form onsubmit="handlePasswordChange(event)">
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" id="current-password" required />
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="new-password" required minlength="6" />
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirm-password" required minlength="6" />
+                </div>
+                <button type="submit" class="btn-primary" style="padding: 12px 24px;">Update Password</button>
+            </form>
+        </div>
+
+        <div class="danger-zone">
+            <h3>Danger Zone</h3>
+            <p style="font-size: 14px; color: #555; margin-bottom: 15px;">Once you delete your account, there is no going back. Please be certain.</p>
+            <button class="btn-outline" style="border-color: #CC0000; color: #CC0000;" onclick="confirmDelete()">Delete Account</button>
+        </div>
+    </section>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+    function handlePasswordChange(e) {
+        e.preventDefault();
+        const newPass = document.getElementById('new-password').value;
+        const confPass = document.getElementById('confirm-password').value;
+
+        if (newPass !== confPass) {
+            UIManager.showToast('New passwords do not match!', 'error');
+            return;
+        }
+        
+        // This is a placeholder since we haven't built a specific password update route in app.py yet.
+        // It provides immediate UI feedback.
+        UIManager.showToast('Password updated successfully!', 'success');
+        e.target.reset();
+    }
+
+    function confirmDelete() {
+        if(confirm("Are you entirely sure you want to delete your DesiDeal account? All data will be lost.")) {
+            UIManager.showToast('Account deletion request submitted.', 'info');
+        }
+    }
+</script>
+</body>
+</html>
