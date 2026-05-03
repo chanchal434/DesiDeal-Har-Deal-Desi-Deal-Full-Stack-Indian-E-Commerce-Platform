@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Wishlist - DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .profile-container { display: grid; grid-template-columns: 260px 1fr; gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+
+    /* Sidebar Styles */
+    .profile-menu { background: #fff; border-radius: 12px; padding: 20px 0; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .profile-menu ul { list-style: none; padding: 0; margin: 0; }
+    .profile-menu li a { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: #444; text-decoration: none; font-weight: 500; font-size: 15px; border-left: 4px solid transparent; transition: all 0.2s ease; }
+    .profile-menu li a i { width: 20px; text-align: center; color: #888; font-size: 18px; }
+    .profile-menu li a:hover, .profile-menu li.active a { background: #fff8f5; color: #C7511F; border-left-color: #C7511F; }
+    .profile-menu li a:hover i, .profile-menu li.active a i { color: #C7511F; }
+
+    /* Content Area */
+    .profile-content { background: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .section-header { border-bottom: 2px solid #f0f2f5; padding-bottom: 15px; margin-bottom: 30px; }
+    .section-header h2 { margin: 0; font-size: 24px; color: #111; font-weight: 600; }
+
+    /* Re-use Grid styles from main CSS */
+    #wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+
+    @media (max-width: 900px) { .profile-container { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="profile-container">
+    <aside class="profile-menu">
+        <ul>
+            <li><a href="profile.html"><i class="fas fa-user-cog"></i> Account Overview</a></li>
+            <li><a href="orders.html"><i class="fas fa-box-open"></i> Your Orders</a></li>
+            <li class="active"><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+            <li><a href="security.html"><i class="fas fa-shield-alt"></i> Security & Privacy</a></li>
+            <li style="border-top: 1px solid #f0f2f5; margin-top: 10px; padding-top: 10px;"><a href="#" onclick="window.handleSignOut(); window.location.href='index.html'"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+        </ul>
+    </aside>
+
+    <section class="profile-content">
+        <div class="section-header">
+            <h2>Your Wishlist</h2>
+        </div>
+        <div id="wishlist-grid">
+            <!-- Handled by JavaScript below -->
+        </div>
+    </section>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+    // Wait for the main.js to initialize and fetch products from the backend
+    setTimeout(() => {
+        const container = document.getElementById('wishlist-grid');
+        const wishlistIds = JSON.parse(localStorage.getItem('desideal_wishlist') || '[]');
+        
+        if (wishlistIds.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column:1/-1; text-align: center; padding: 40px 0;">
+                    <i class="far fa-heart" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
+                    <h3 style="color: #333;">Your wishlist is empty.</h3>
+                    <button class="btn-primary mt-sm" onclick="window.location.href='index.html'">Explore Products</button>
+                </div>
+            `;
+            return;
+        }
+
+        // Filter the global products loaded by main.js
+        const wishlistProducts = state.products.filter(p => wishlistIds.includes(p.id));
+        
+        // Render them using the existing UIManager logic
+        container.innerHTML = wishlistProducts.map(p => UIManager.createProductCardHTML(p)).join('');
+    }, 1000); // 1-second delay ensures the API has returned the products list
+</script>
+</body>
+</html>
