@@ -1,0 +1,19 @@
+desideal-project/
+├── frontend/
+│   ├── css/
+│   │   └── style.css               # Centralized styling for all pages
+│   ├── js/
+│   │   ├── main.js                 # Core business logic, UI state, and API calls
+│   │   └── product.js              # (Optional) Specific logic for individual product views
+│   ├── index.html                  # Main storefront and product listing
+│   ├── about.html                  # Company information and story
+│   ├── profile.html                # User account overview and address book
+│   ├── prime.html                  # Prime membership benefits and upgrade page
+│   ├── customer-service.html       # Support ticket submission and help center
+│   ├── orders.html                 # Dynamic order history fetched from the database
+│   ├── wishlist.html               # Filtered grid of the user's favorited items
+│   └── security.html               # Password management and account deletion
+└── backend/
+    ├── app.py                      # Main Flask server, API routes, and JWT security
+    ├── seed.py                     # Script to populate your MongoDB with the 70 products
+    └── .env                        # Secure environment variables (MongoDB URI, JWT Secret)
