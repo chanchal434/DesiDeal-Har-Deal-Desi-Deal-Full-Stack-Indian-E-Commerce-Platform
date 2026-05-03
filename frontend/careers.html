@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Careers at DesiDeal - Join Our Team</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    .info-hero { background: linear-gradient(135deg, #131921 0%, #232F3E 100%); color: #fff; text-align: center; padding: 80px 20px; }
+    .info-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .info-hero h1 span { color: #FF9933; }
+    .info-hero p { font-size: 18px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+    
+    .content-container { max-width: 1000px; margin: 60px auto; padding: 0 20px; }
+    .job-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 24px; margin-bottom: 20px; transition: box-shadow 0.3s ease; display: flex; justify-content: space-between; align-items: center; }
+    .job-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: #FF9933; }
+    .job-info h3 { font-size: 20px; color: #111; margin-bottom: 8px; }
+    .job-info p { color: #555; font-size: 14px; margin-bottom: 8px; }
+    .job-tags span { display: inline-block; background: #f0f2f5; padding: 4px 10px; border-radius: 20px; font-size: 12px; color: #333; margin-right: 8px; }
+    
+    @media (max-width: 640px) { .job-card { flex-direction: column; align-items: flex-start; gap: 16px; } .job-card button { width: 100%; } }
+  </style>
+</head>
+<body style="background-color: #f4f6f8;">
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="info-hero">
+    <h1>Build the Future of <span>E-Commerce</span></h1>
+    <p>Join a team of innovators and problem-solvers dedicated to delivering happiness across India.</p>
+</section>
+
+<main class="content-container">
+    <h2 style="font-size: 28px; margin-bottom: 30px; border-bottom: 2px solid #ddd; padding-bottom: 10px;">Open Roles</h2>
+    
+    <div class="job-card">
+        <div class="job-info">
+            <h3>Senior Full-Stack Engineer</h3>
+            <p>Engineering &bull; Bengaluru, MH &bull; Full-Time</p>
+            <div class="job-tags"><span>Python</span><span>React</span><span>MongoDB</span></div>
+        </div>
+        <button class="btn-primary" onclick="alert('Application portal opening soon!')">Apply Now</button>
+    </div>
+
+    <div class="job-card">
+        <div class="job-info">
+            <h3>Product Marketing Manager</h3>
+            <p>Marketing &bull; Mumbai, MH &bull; Full-Time</p>
+            <div class="job-tags"><span>Strategy</span><span>Campaigns</span></div>
+        </div>
+        <button class="btn-primary" onclick="alert('Application portal opening soon!')">Apply Now</button>
+    </div>
+
+    <div class="job-card">
+        <div class="job-info">
+            <h3>Supply Chain Analyst</h3>
+            <p>Logistics &bull; Delhi, KA &bull; Full-Time</p>
+            <div class="job-tags"><span>Data</span><span>Logistics</span></div>
+        </div>
+        <button class="btn-primary" onclick="alert('Application portal opening soon!')">Apply Now</button>
+    </div>
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
