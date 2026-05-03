@@ -15,7 +15,13 @@ import razorpay
 # 1. INITIALIZATION & SETUP
 # =====================================================================
 load_dotenv()
-app = Flask(__name__)
+
+# Determine the absolute path to your frontend folder
+frontend_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend'))
+
+# Initialize Flask to serve static files (HTML, CSS, JS) directly from the frontend folder
+app = Flask(__name__, static_folder=frontend_folder, static_url_path='/')
+
 CORS(app)
 
 bcrypt = Bcrypt(app) 
@@ -26,7 +32,7 @@ db = client.desideal_db
 products_collection = db.products
 users_collection = db.users
 orders_collection = db.orders 
-support_tickets_collection = db.support_tickets # NEW: Collection for Customer Service
+support_tickets_collection = db.support_tickets # Collection for Customer Service
 
 razorpay_client = razorpay.Client(auth=(os.getenv('RAZORPAY_KEY_ID'), os.getenv('RAZORPAY_KEY_SECRET')))
 
@@ -53,11 +59,12 @@ def token_required(f):
     return decorated
 
 # =====================================================================
-# 3. PUBLIC API ROUTES
+# 3. PUBLIC API ROUTES & FRONTEND SERVING
 # =====================================================================
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({"success": True, "message": "Welcome to the DesiDeal API!"})
+    # Serve the main index.html file when users visit the root URL
+    return app.send_static_file('index.html')
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
@@ -87,7 +94,7 @@ def register_user():
         "email": email,
         "password": hashed_password,
         "role": "user",
-        "is_prime": False # NEW: Prime status defaults to False
+        "is_prime": False # Prime status defaults to False
     }
     users_collection.insert_one(new_user)
     
@@ -121,7 +128,7 @@ def login_user():
     return jsonify({"success": False, "message": "Invalid email or password!"}), 401
 
 # =====================================================================
-# 5. NEW: PRIME & CUSTOMER SERVICE ROUTES
+# 5. PRIME & CUSTOMER SERVICE ROUTES
 # =====================================================================
 @app.route('/api/join-prime', methods=['POST'])
 @token_required
