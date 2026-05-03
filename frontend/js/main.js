@@ -203,7 +203,7 @@ class UIManager {
     static updateAuthUI() {
         const token = localStorage.getItem('desideal_token');
         const userName = localStorage.getItem('desideal_name');
-        const isPrime = localStorage.getItem('desideal_prime') === 'true'; // UPDATED: Check for Prime Status
+        const isPrime = localStorage.getItem('desideal_prime') === 'true'; // Check for Prime Status
         
         const elements = {
             greeting: document.getElementById('nav-user-greeting'),
@@ -215,7 +215,7 @@ class UIManager {
         };
 
         if (token && userName) {
-            // UPDATED: Add Crown icon if user is Prime
+            // Add Crown icon if user is Prime
             const displayGreeting = isPrime 
                 ? `Hello, ${userName} <i class="fas fa-crown text-green" style="color: #FFD814 !important;" title="Prime Member"></i>` 
                 : `Hello, ${userName}`;
@@ -729,7 +729,7 @@ window.handleSignIn = async (e) => {
             const firstName = data.user.name.split(' ')[0];
             localStorage.setItem('desideal_token', data.token);
             localStorage.setItem('desideal_name', firstName); 
-            localStorage.setItem('desideal_prime', data.user.is_prime); // UPDATED: Save Prime Status
+            localStorage.setItem('desideal_prime', data.user.is_prime);
             
             window.closeAuthModal();
             UIManager.showToast(`<i class="fas fa-user-check"></i> <span>Welcome back, <strong>${data.user.name}</strong>!</span>`, 'success');
@@ -747,10 +747,8 @@ window.handleSignIn = async (e) => {
 };
 
 window.handleSignOut = () => {
-    // 1. Trigger a confirmation pop-up
     const userConfirmed = confirm("Are you sure you want to sign out of DesiDeal? You'll miss out on personalized deals!");
     
-    // 2. Only proceed if the user clicked "OK"
     if (userConfirmed) {
         localStorage.removeItem('desideal_token');
         localStorage.removeItem('desideal_name');
@@ -764,7 +762,6 @@ window.handleSignOut = () => {
         
         UIManager.showToast('<i class="fas fa-sign-out-alt"></i> Signed out successfully.', 'info');
         
-        // Optional: Redirect them to the homepage if they sign out from a protected page like profile.html
         if (window.location.pathname.includes('profile.html') || 
             window.location.pathname.includes('orders.html') || 
             window.location.pathname.includes('wishlist.html') ||
@@ -998,11 +995,11 @@ window.closeOrderSuccess = () => {
     if(overlay) overlay.classList.add('hidden');
 };
 
-// ── 6. PRIME & SUPPORT LOGIC ─────────────────────────────────
+// ── 6. PRIME, SUPPORT, & SELLER LOGIC ────────────────────────
 
 window.handleJoinPrime = async () => {
     const token = localStorage.getItem('desideal_token');
-    if (!token) return window.location.href = 'index.html'; // Force sign-in
+    if (!token) return window.location.href = 'index.html';
     
     try {
         const response = await fetch(`${StoreConfig.API_BASE}/join-prime`, {
@@ -1014,8 +1011,6 @@ window.handleJoinPrime = async () => {
         if (data.success) {
             localStorage.setItem('desideal_prime', 'true');
             UIManager.showToast(`<i class="fas fa-crown"></i> ${data.message}`, 'success');
-            
-            // Wait 2 seconds, then refresh index.html to show the golden crown!
             setTimeout(() => { window.location.href = 'index.html'; }, 2000);
         } else {
             UIManager.showToast(`<i class="fas fa-info-circle"></i> ${data.message}`, 'info');
@@ -1043,11 +1038,25 @@ window.handleSupportTicket = async (e) => {
         
         if (data.success) {
             UIManager.showToast(`<i class="fas fa-check"></i> ${data.message}`, 'success');
-            e.target.reset(); // Clear the form so they don't submit twice
+            e.target.reset(); 
         } else {
             UIManager.showToast(data.message, 'error');
         }
     } catch (error) {
         UIManager.showToast('Failed to submit ticket.', 'error');
     }
+};
+
+window.handleSellerApplication = (e) => {
+    e.preventDefault();
+    
+    // Ensure user is signed in before applying to be a seller
+    if (!localStorage.getItem('desideal_token')) {
+        UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to your customer account first to apply as a seller.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        return;
+    }
+
+    UIManager.showToast('<i class="fas fa-check-circle"></i> Application received! Our team will contact you soon.', 'success');
+    e.target.reset();
 };
