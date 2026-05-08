@@ -1,4 +1,4 @@
-### Starting making the modern website (DesiDeal)
+### Starting... making the modern website (DesiDeal)
 
 
 # DesiDeal is a modern full-stack e-commerce web application built for the Indian market, delivering a seamless and localized online shopping experience with the tagline “Har Deal, Desi Deal”.
