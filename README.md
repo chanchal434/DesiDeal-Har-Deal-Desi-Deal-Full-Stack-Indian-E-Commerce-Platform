@@ -5,7 +5,7 @@
 
   
   
-The platform combines a clean and responsive frontend with a scalable backend architecture to provide features like product browsing, advanced filtering, shopping cart, wishlist, user authentication, and secure checkout.
+The platform combines a clean and responsive frontend and amazing backend with a scalable backend architecture to provide features like product browsing, advanced filtering, shopping cart, wishlist, user authentication, and secure checkout.
 
 ## Key Features:
 • Indian-focused UI with localized currency (₹) and experience
