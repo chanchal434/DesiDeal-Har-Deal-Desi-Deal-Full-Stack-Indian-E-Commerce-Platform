@@ -1060,3 +1060,37 @@ window.handleSellerApplication = (e) => {
     UIManager.showToast('<i class="fas fa-check-circle"></i> Application received! Our team will contact you soon.', 'success');
     e.target.reset();
 };
+
+
+window.handleAffiliateApplication = (e) => {
+    e.preventDefault();
+    if (!localStorage.getItem('desideal_token')) {
+        UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to join the Affiliate Program.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        return;
+    }
+    UIManager.showToast('<i class="fas fa-check-circle"></i> Affiliate application received! We will review your profile.', 'success');
+    e.target.reset();
+};
+
+window.handleAdInquiry = (e) => {
+    e.preventDefault();
+    if (!localStorage.getItem('desideal_token')) {
+        UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to request an advertising consultation.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        return;
+    }
+    UIManager.showToast('<i class="fas fa-envelope"></i> Ad inquiry sent! A specialist will email you shortly.', 'success');
+    e.target.reset();
+};
+
+window.handlePublishSubmit = (e) => {
+    e.preventDefault();
+    if (!localStorage.getItem('desideal_token')) {
+        UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to set up your Author Account.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        return;
+    }
+    UIManager.showToast('<i class="fas fa-book"></i> Author account setup initiated! Check your dashboard.', 'success');
+    e.target.reset();
+};
