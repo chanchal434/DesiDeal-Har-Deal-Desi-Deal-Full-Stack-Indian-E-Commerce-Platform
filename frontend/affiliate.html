@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DesiDeal Associates - Affiliate Program</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .page-hero { background: linear-gradient(135deg, #007185 0%, #005f6b 100%); color: #fff; padding: 80px 20px; text-align: center; }
+    .page-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .page-hero p { font-size: 18px; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1200px; margin: -40px auto 60px; padding: 0 20px; }
+    .info-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .info-box h2 { font-size: 24px; color: #111; margin-bottom: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+    .info-step { display: flex; gap: 16px; margin-bottom: 24px; }
+    .info-step-num { background: #FF9933; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+    .info-step h4 { font-size: 18px; margin-bottom: 8px; color: #111; }
+    .info-step p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .form-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 4px solid #007185; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #333; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus { border-color: #007185; outline: none; box-shadow: 0 0 0 3px rgba(0,113,133,0.15); }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; margin-top: 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+    <h1>Recommend Products. <span>Earn Money.</span></h1>
+    <p>Join the DesiDeal Associates Program. Monetize your traffic by sharing links to our millions of products.</p>
+</section>
+
+<main class="content-grid">
+    <div class="info-box">
+        <h2>How It Works</h2>
+        <div class="info-step">
+            <div class="info-step-num">1</div>
+            <div>
+                <h4>Sign Up</h4>
+                <p>Join tens of thousands of creators, publishers, and bloggers who are earning with the DesiDeal Associates Program.</p>
+            </div>
+        </div>
+        <div class="info-step">
+            <div class="info-step-num">2</div>
+            <div>
+                <h4>Recommend</h4>
+                <p>Share products and available programs on DesiDeal with your audience through customized linking tools.</p>
+            </div>
+        </div>
+        <div class="info-step">
+            <div class="info-step-num">3</div>
+            <div>
+                <h4>Earn</h4>
+                <p>Earn up to 10% in associate commissions from qualifying purchases and programs. Our competitive conversion rates help maximize your earnings.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-box">
+        <h2 style="margin-bottom: 20px; font-size: 24px; color: #111;">Apply Now</h2>
+        <form onsubmit="handleAffiliateApplication(event)">
+            <div class="form-group">
+                <label>Primary Website or Social Media URL</label>
+                <input type="url" id="affiliate-url" placeholder="https://instagram.com/yourhandle" required />
+            </div>
+            <div class="form-group">
+                <label>Monthly Traffic / Followers</label>
+                <select id="affiliate-traffic" required>
+                    <option value="">Select an option...</option>
+                    <option value="under_10k">Under 10,000</option>
+                    <option value="10k_50k">10,000 - 50,000</option>
+                    <option value="50k_100k">50,000 - 100,000</option>
+                    <option value="over_100k">Over 100,000</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>How did you hear about us?</label>
+                <input type="text" id="affiliate-source" placeholder="Search, Friend, Social Media..." />
+            </div>
+            <button type="submit" class="btn-primary full-width" style="padding: 14px; font-size: 16px; margin-top: 10px;">Submit Application</button>
+        </form>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
