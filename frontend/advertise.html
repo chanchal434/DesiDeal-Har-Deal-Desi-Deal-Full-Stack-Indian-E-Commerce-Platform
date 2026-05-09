@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advertise with DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .page-hero { background: linear-gradient(135deg, #111 0%, #333 100%); color: #fff; padding: 80px 20px; text-align: center; }
+    .page-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; color: #FF9933; }
+    .page-hero p { font-size: 18px; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1200px; margin: -40px auto 60px; padding: 0 20px; }
+    .info-box, .form-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .info-box h2, .form-box h2 { font-size: 24px; color: #111; margin-bottom: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+    
+    .ad-type { margin-bottom: 20px; padding: 20px; border: 1px solid #eaedf0; border-radius: 8px; }
+    .ad-type h4 { font-size: 18px; color: #111; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .ad-type h4 i { color: #FF9933; }
+    .ad-type p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #333; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus { border-color: #FF9933; outline: none; box-shadow: 0 0 0 3px rgba(255,153,51,0.15); }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; margin-top: 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+    <h1>Grow Your Business with DesiDeal Ads</h1>
+    <p>Get your products discovered by millions of ready-to-buy customers exactly when they are searching for what you sell.</p>
+</section>
+
+<main class="content-grid">
+    <div class="info-box">
+        <h2>Advertising Solutions</h2>
+        <div class="ad-type">
+            <h4><i class="fas fa-bullseye"></i> Sponsored Products</h4>
+            <p>Boost visibility for individual listings. Your ads appear in search results and on product pages, and you only pay when a customer clicks.</p>
+        </div>
+        <div class="ad-type">
+            <h4><i class="fas fa-image"></i> Sponsored Brands</h4>
+            <p>Showcase your brand logo, a custom headline, and a portfolio of products. Great for driving brand awareness and loyalty.</p>
+        </div>
+        <div class="ad-type">
+            <h4><i class="fas fa-tv"></i> Display Ads</h4>
+            <p>Engage customers on DesiDeal and across the web with high-impact visual banners that tell your brand's story.</p>
+        </div>
+    </div>
+
+    <div class="form-box" style="border-top: 4px solid #111;">
+        <h2>Talk to an Ad Specialist</h2>
+        <form onsubmit="handleAdInquiry(event)">
+            <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" id="ad-company" placeholder="Enter your business name" required />
+            </div>
+            <div class="form-group">
+                <label>Monthly Advertising Budget</label>
+                <select id="ad-budget" required>
+                    <option value="">Select your budget...</option>
+                    <option value="under_10k">Under ₹10,000</option>
+                    <option value="10k_50k">₹10,000 - ₹50,000</option>
+                    <option value="50k_100k">₹50,000 - ₹1,00,000</option>
+                    <option value="over_100k">Over ₹1,00,000</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Website URL</label>
+                <input type="url" id="ad-website" placeholder="https://yourbrand.com" required />
+            </div>
+            <button type="submit" class="btn-gold full-width" style="padding: 14px; font-size: 16px; margin-top: 10px;">Request a Consultation</button>
+        </form>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
