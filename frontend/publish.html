@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Self-Publish with DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .page-hero { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: #fff; padding: 80px 20px; text-align: center; }
+    .page-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .page-hero p { font-size: 18px; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1200px; margin: -40px auto 60px; padding: 0 20px; }
+    .info-box, .form-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .info-box h2, .form-box h2 { font-size: 24px; color: #111; margin-bottom: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+    
+    .pub-benefit { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .pub-benefit i { font-size: 28px; color: #3498db; }
+    .pub-benefit h4 { font-size: 18px; color: #111; margin-bottom: 6px; }
+    .pub-benefit p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #333; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus { border-color: #3498db; outline: none; box-shadow: 0 0 0 3px rgba(52,152,219,0.15); }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; margin-top: 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+    <h1>Self-Publish with DesiDeal</h1>
+    <p>Reach millions of readers worldwide. Publish your eBook or Paperback for free and retain full control of your work.</p>
+</section>
+
+<main class="content-grid">
+    <div class="info-box">
+        <h2>Why Publish with Us?</h2>
+        <div class="pub-benefit">
+            <i class="fas fa-bolt"></i>
+            <div>
+                <h4>Get to Market Fast</h4>
+                <p>Publishing takes less than 5 minutes and your book appears on DesiDeal stores worldwide within 24-48 hours.</p>
+            </div>
+        </div>
+        <div class="pub-benefit">
+            <i class="fas fa-money-bill-wave"></i>
+            <div>
+                <h4>Make More Money</h4>
+                <p>Earn up to 70% royalty on sales to customers in India, the US, UK, and other major markets.</p>
+            </div>
+        </div>
+        <div class="pub-benefit">
+            <i class="fas fa-pen-nib"></i>
+            <div>
+                <h4>Keep Control</h4>
+                <p>Keep control of your rights and set your own list prices. Make changes to your books at any time.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-box" style="border-top: 4px solid #3498db;">
+        <h2>Create an Author Account</h2>
+        <form onsubmit="handlePublishSubmit(event)">
+            <div class="form-group">
+                <label>Author Name / Pen Name</label>
+                <input type="text" id="author-name" placeholder="How you want to appear in the store" required />
+            </div>
+            <div class="form-group">
+                <label>Working Title of Your Book</label>
+                <input type="text" id="book-title" placeholder="Enter title" required />
+            </div>
+            <div class="form-group">
+                <label>Primary Genre</label>
+                <select id="book-genre" required>
+                    <option value="">Select a genre...</option>
+                    <option value="fiction">Fiction / Fantasy</option>
+                    <option value="nonfiction">Non-Fiction / Biography</option>
+                    <option value="educational">Educational / Textbooks</option>
+                    <option value="children">Children's Books</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary full-width" style="padding: 14px; font-size: 16px; margin-top: 10px; background: #3498db; border-color: #2980b9; color: white;">Start Publishing Setup</button>
+        </form>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
