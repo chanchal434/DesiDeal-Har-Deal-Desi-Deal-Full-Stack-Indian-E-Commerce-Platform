@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Currency Converter - DesiDeal</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #f4f6f8; }
+    .converter-container { max-width: 600px; margin: 60px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
+    .converter-container h2 { font-size: 28px; color: #111; margin-bottom: 25px; }
+    
+    .conv-row { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; }
+    .conv-row input, .conv-row select { padding: 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+    .conv-row input { flex: 1; }
+    .conv-row select { width: 120px; font-weight: 600; background: #f8f9fa; }
+    
+    .swap-icon { color: #007185; font-size: 24px; margin: 10px 0; cursor: pointer; transition: transform 0.3s; }
+    .swap-icon:hover { transform: rotate(180deg); }
+
+    .conv-result-box { margin-top: 30px; padding: 20px; background: #f0f8f9; border: 1px solid #007185; border-radius: 8px; color: #007185; font-size: 24px; display: none; }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="converter-container">
+    <h2><i class="fas fa-globe"></i> Global Currency Converter</h2>
+    <p style="color: #666; margin-bottom: 30px;">Estimate international shipping and product costs.</p>
+    
+    <div class="conv-row">
+        <input type="number" id="conv-amount" placeholder="Enter amount" />
+        <select id="conv-from">
+            <option value="INR">INR (₹)</option>
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="AED">AED (د.إ)</option>
+        </select>
+    </div>
+    
+    <i class="fas fa-exchange-alt swap-icon" onclick="swapCurrency()"></i>
+    
+    <div class="conv-row">
+        <input type="text" id="conv-disabled" disabled placeholder="Converted amount will appear here" style="background: #eaedf0;" />
+        <select id="conv-to">
+            <option value="USD">USD ($)</option>
+            <option value="INR">INR (₹)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="AED">AED (د.إ)</option>
+        </select>
+    </div>
+    
+    <button class="btn-primary full-width" style="padding: 14px; font-size: 16px;" onclick="convertCurrency()">Convert</button>
+
+    <div class="conv-result-box" id="conv-result"></div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+    function swapCurrency() {
+        const from = document.getElementById('conv-from');
+        const to = document.getElementById('conv-to');
+        const temp = from.value;
+        from.value = to.value;
+        to.value = temp;
+    }
+</script>
+</body>
+</html>
