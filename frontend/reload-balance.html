@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reload Balance - DesiDeal Pay</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #f4f6f8; }
+    .reload-container { max-width: 600px; margin: 60px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
+    .reload-header i { font-size: 48px; color: #007185; margin-bottom: 15px; }
+    .reload-header h2 { font-size: 28px; color: #111; margin-bottom: 10px; }
+    .current-balance { font-size: 36px; font-weight: 800; color: #FF9933; margin: 20px 0; padding: 20px; background: #fffdfa; border: 1px dashed #FF9933; border-radius: 8px; }
+    
+    .quick-add { display: flex; gap: 15px; justify-content: center; margin-bottom: 25px; }
+    .quick-add button { padding: 10px 20px; border: 1px solid #d1d5db; background: #fff; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .quick-add button:hover { border-color: #007185; color: #007185; background: #f0f8f9; }
+
+    .form-group input { width: 100%; padding: 15px; border: 2px solid #eaedf0; border-radius: 8px; font-size: 18px; text-align: center; margin-bottom: 20px; font-weight: 600; }
+    .form-group input:focus { border-color: #007185; outline: none; }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="reload-container">
+    <div class="reload-header">
+        <i class="fas fa-wallet"></i>
+        <h2>DesiDeal Pay Balance</h2>
+        <p style="color: #666;">Add funds for faster, 1-click checkouts.</p>
+    </div>
+
+    <div class="current-balance" id="wallet-balance">₹0.00</div>
+
+    <form onsubmit="handleReloadBalance(event)">
+        <div class="quick-add">
+            <button type="button" onclick="document.getElementById('reload-amt').value='500'">+ ₹500</button>
+            <button type="button" onclick="document.getElementById('reload-amt').value='1000'">+ ₹1000</button>
+            <button type="button" onclick="document.getElementById('reload-amt').value='5000'">+ ₹5000</button>
+        </div>
+        
+        <div class="form-group">
+            <input type="number" id="reload-amt" placeholder="Enter custom amount" required min="100" />
+        </div>
+        
+        <button type="submit" class="btn-gold full-width" style="padding: 16px; font-size: 18px; border-radius: 8px;">
+            <i class="fas fa-shield-alt"></i> Proceed to Add Funds
+        </button>
+    </form>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
