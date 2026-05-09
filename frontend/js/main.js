@@ -1061,7 +1061,6 @@ window.handleSellerApplication = (e) => {
     e.target.reset();
 };
 
-
 window.handleAffiliateApplication = (e) => {
     e.preventDefault();
     if (!localStorage.getItem('desideal_token')) {
@@ -1093,4 +1092,46 @@ window.handlePublishSubmit = (e) => {
     }
     UIManager.showToast('<i class="fas fa-book"></i> Author account setup initiated! Check your dashboard.', 'success');
     e.target.reset();
+};
+
+// New Implementations for Financial Pages
+window.handleBusinessCardApply = (e) => {
+    e.preventDefault(); 
+    if (!localStorage.getItem('desideal_token')) return UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to apply.', 'error');
+    UIManager.showToast('<i class="fas fa-check-circle"></i> Application securely submitted for review!', 'success'); 
+    e.target.reset();
+};
+
+window.handleLinkCard = () => {
+    if (!localStorage.getItem('desideal_token')) return UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to link accounts.', 'error');
+    UIManager.showToast('<i class="fas fa-university"></i> Bank account securely linked for reward points!', 'success');
+};
+
+window.handleReloadBalance = (e) => {
+    e.preventDefault(); 
+    if (!localStorage.getItem('desideal_token')) return UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to reload wallet.', 'error');
+    const amt = document.getElementById('reload-amt').value;
+    UIManager.showToast(`<i class="fas fa-wallet"></i> ₹${amt} securely added to DesiDeal Pay!`, 'success');
+    document.getElementById('wallet-balance').innerText = `₹${amt}.00`;
+    e.target.reset();
+};
+
+window.convertCurrency = () => {
+    const amount = parseFloat(document.getElementById('conv-amount').value);
+    const from = document.getElementById('conv-from').value;
+    const to = document.getElementById('conv-to').value;
+    
+    if(isNaN(amount)) return UIManager.showToast('Please enter a valid numeric amount.', 'error');
+    
+    // Baseline conversion rates against INR for the demo ecosystem
+    const rates = { 'INR': 1, 'USD': 0.012, 'EUR': 0.011, 'GBP': 0.0095, 'AED': 0.044 };
+    
+    const inrValue = amount / rates[from];
+    const finalValue = inrValue * rates[to];
+    
+    const resultBox = document.getElementById('conv-result');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `${amount} ${from} = <strong>${finalValue.toFixed(2)} ${to}</strong>`;
+    
+    document.getElementById('conv-disabled').value = `${finalValue.toFixed(2)} ${to}`;
 };
