@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DesiDeal Business Card</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #f4f6f8; }
+    .fin-hero { background: linear-gradient(135deg, #111 0%, #222 100%); color: #fff; padding: 80px 20px; text-align: center; }
+    .fin-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; color: #FFD814; }
+    .fin-hero p { font-size: 18px; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1200px; margin: -40px auto 60px; padding: 0 20px; }
+    .info-box, .form-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .info-box h2, .form-box h2 { font-size: 24px; color: #111; margin-bottom: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+    
+    .fin-perk { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .fin-perk i { font-size: 28px; color: #FF9933; }
+    .fin-perk h4 { font-size: 18px; color: #111; margin-bottom: 6px; }
+    .fin-perk p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #333; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus { border-color: #111; outline: none; box-shadow: 0 0 0 3px rgba(17,17,17,0.1); }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; margin-top: 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="fin-hero">
+    <h1>DesiDeal Business Card</h1>
+    <p>Empower your business with up to 50 days of interest-free credit, zero annual fees, and endless rewards on your operational expenses.</p>
+</section>
+
+<main class="content-grid">
+    <div class="info-box">
+        <h2>Unmatched Corporate Benefits</h2>
+        <div class="fin-perk">
+            <i class="fas fa-undo"></i>
+            <div>
+                <h4>5% Cashback on DesiDeal</h4>
+                <p>Earn flat 5% cashback on all office supplies, SaaS purchases, and corporate gifting made through the DesiDeal platform.</p>
+            </div>
+        </div>
+        <div class="fin-perk">
+            <i class="fas fa-plane-departure"></i>
+            <div>
+                <h4>Travel & Lounge Access</h4>
+                <p>Enjoy 8 complimentary domestic and 4 international airport lounge visits per year, plus zero forex markup on global transactions.</p>
+            </div>
+        </div>
+        <div class="fin-perk">
+            <i class="fas fa-users-cog"></i>
+            <div>
+                <h4>Expense Management</h4>
+                <p>Issue unlimited free add-on cards for your team. Set custom spending limits and track expenses in real-time via the CorpCard Hub.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-box" style="border-top: 4px solid #FFD814;">
+        <h2>Check Your Eligibility</h2>
+        <form onsubmit="handleBusinessCardApply(event)">
+            <div class="form-group">
+                <label>Registered Company Name</label>
+                <input type="text" id="bc-company" placeholder="e.g., TechCorp India Pvt Ltd" required />
+            </div>
+            <div class="form-group">
+                <label>Company PAN / GSTIN</label>
+                <input type="text" id="bc-tax-id" placeholder="Enter tax ID" required />
+            </div>
+            <div class="form-group">
+                <label>Annual Turnover</label>
+                <select id="bc-turnover" required>
+                    <option value="">Select turnover range...</option>
+                    <option value="tier1">₹10 Lakhs - ₹50 Lakhs</option>
+                    <option value="tier2">₹50 Lakhs - ₹5 Crores</option>
+                    <option value="tier3">Above ₹5 Crores</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary full-width" style="padding: 14px; font-size: 16px; margin-top: 10px; background: #111; color: #FFD814; border: none;">Apply Now</button>
+            <p style="font-size: 12px; text-align: center; margin-top: 15px; color: #777;">Subject to credit approval and verification.</p>
+        </form>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>
