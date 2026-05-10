@@ -1135,3 +1135,24 @@ window.convertCurrency = () => {
     
     document.getElementById('conv-disabled').value = `${finalValue.toFixed(2)} ${to}`;
 };
+
+window.handleGiftCardPurchase = (e) => {
+    e.preventDefault();
+    if (!localStorage.getItem('desideal_token')) {
+        UIManager.showToast('<i class="fas fa-lock"></i> Please sign in to purchase gift cards.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+        return;
+    }
+    
+    const amount = document.getElementById('gc-amount').value;
+    const email = document.getElementById('gc-email').value;
+    const name = document.getElementById('gc-name').value;
+    
+    UIManager.showToast(`<i class="fas fa-gift"></i> ₹${amount} eGift Card successfully sent to ${name} (${email})!`, 'success');
+    e.target.reset();
+    
+    // Reset the buttons back to default state
+    document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.amount-btn')[1].classList.add('active');
+    document.getElementById('gc-amount').value = 1000;
+};
