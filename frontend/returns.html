@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Returns & Replacements - DesiDeal</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .page-hero { background: linear-gradient(135deg, #007185 0%, #005f6b 100%); color: #fff; padding: 60px 20px; text-align: center; }
+    .page-hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+    .page-hero p { font-size: 16px; color: rgba(255,255,255,0.9); }
+    
+    .content-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+    .info-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 30px; }
+    .info-box h2 { font-size: 22px; color: #111; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; margin-bottom: 20px; }
+    
+    .return-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .step-card { text-align: center; padding: 20px; background: #fafbfc; border: 1px solid #eaedf0; border-radius: 8px; }
+    .step-card i { font-size: 32px; color: #C7511F; margin-bottom: 15px; }
+    .step-card h4 { margin-bottom: 10px; color: #111; }
+    .step-card p { font-size: 13px; color: #555; line-height: 1.5; }
+    
+    .policy-list { list-style: none; padding: 0; }
+    .policy-list li { padding: 12px 0; border-bottom: 1px solid #eaedf0; font-size: 15px; color: #333; display: flex; align-items: center; gap: 10px; }
+    .policy-list li i { color: #067D62; }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+    <h1>Returns & Replacements</h1>
+    <p>Not completely satisfied? We are here to help make it right.</p>
+</section>
+
+<main class="content-container">
+    <div class="info-box" style="text-align: center;">
+        <h2 style="text-align: left;">How to Return an Item</h2>
+        <div class="return-steps">
+            <div class="step-card">
+                <i class="fas fa-box-open"></i>
+                <h4>1. Select Item</h4>
+                <p>Go to 'Your Orders' and select the item you wish to return.</p>
+            </div>
+            <div class="step-card">
+                <i class="fas fa-undo-alt"></i>
+                <h4>2. Choose Reason</h4>
+                <p>Tell us why you are returning it and choose refund or replacement.</p>
+            </div>
+            <div class="step-card">
+                <i class="fas fa-truck"></i>
+                <h4>3. Hand it Over</h4>
+                <p>Pack the item. Our courier partner will pick it up from your doorstep.</p>
+            </div>
+        </div>
+        <button class="btn-gold" style="padding: 12px 30px; font-size: 16px;" onclick="window.location.href='orders.html'">Go to Your Orders</button>
+    </div>
+
+    <div class="info-box">
+        <h2>General Return Policy</h2>
+        <ul class="policy-list">
+            <li><i class="fas fa-check-circle"></i> Most items can be returned within <strong>10 days</strong> of delivery.</li>
+            <li><i class="fas fa-check-circle"></i> Electronics and Appliances have a <strong>7-day replacement-only</strong> policy for defects.</li>
+            <li><i class="fas fa-check-circle"></i> Clothing and Shoes can be returned within <strong>30 days</strong>, provided tags are intact.</li>
+            <li><i class="fas fa-times-circle" style="color: #CC0000;"></i> Personal care, beauty products, and undergarments are non-returnable due to hygiene reasons.</li>
+        </ul>
+        <p style="margin-top: 20px; font-size: 14px; color: #666;">Refunds are processed back to the original payment method within 3-5 business days after the returned item reaches our fulfillment center.</p>
+    </div>
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
