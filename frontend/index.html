@@ -331,15 +331,17 @@
         <p>Free delivery, exclusive deals & more</p>
       </div>
       <button class="btn-gold">Get Prime</button>
+      
     </div>
-    <div class="promo-card promo-gift">
+    <div class="promo-card promo-gift" onclick="window.location.href='gift-cards.html'" style="cursor: pointer;">
       <i class="fas fa-gift"></i>
       <div>
         <h3>Gift Cards</h3>
         <p>The perfect gift for everyone</p>
       </div>
-      <button class="btn-primary">Shop Gift Cards</button>
+      <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='gift-cards.html'">Shop Gift Cards</button>
     </div>
+
     <div class="promo-card promo-sell" onclick="window.location.href='sell.html'" style="cursor: pointer;">
       <i class="fas fa-store"></i>
       <div>
