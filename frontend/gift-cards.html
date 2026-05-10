@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DesiDeal Gift Cards - The Perfect Gift</title>
+  
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body { background-color: #f4f6f8; }
+    .gc-hero { background: linear-gradient(135deg, #e052a0 0%, #f15c41 100%); color: #fff; padding: 80px 20px; text-align: center; }
+    .gc-hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .gc-hero p { font-size: 18px; color: rgba(255,255,255,0.9); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1200px; margin: -40px auto 60px; padding: 0 20px; }
+    .info-box, .form-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .info-box h2, .form-box h2 { font-size: 24px; color: #111; margin-bottom: 24px; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+    
+    .gc-feature { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .gc-feature i { font-size: 28px; color: #e052a0; }
+    .gc-feature h4 { font-size: 18px; color: #111; margin-bottom: 6px; }
+    .gc-feature p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 13px; color: #333; }
+    .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; box-sizing: border-box; font-family: inherit; }
+    .form-group input:focus, .form-group textarea:focus { border-color: #e052a0; outline: none; box-shadow: 0 0 0 3px rgba(224,82,160,0.15); }
+    
+    .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+    .amount-btn { padding: 12px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.2s; }
+    .amount-btn:hover { border-color: #e052a0; color: #e052a0; background: #fdf2f8; }
+    .amount-btn.active { background: #e052a0; color: #fff; border-color: #e052a0; }
+
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; margin-top: 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="container header-inner">
+    <a href="index.html" id="logo" style="flex-direction: column; align-items: flex-start; gap: 0; text-decoration: none;">
+      <div><span class="logo-main">DesiDeal</span><span class="logo-dot">.in</span></div>
+    </a>
+    <div id="header-actions">
+      <div class="header-btn" onclick="window.location.href='index.html'" style="cursor: pointer;">
+        <i class="fas fa-arrow-left"></i><span class="bold-label" style="margin-left:8px;">Back to Store</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="gc-hero">
+    <h1>Give the Gift of Choice</h1>
+    <p>DesiDeal eGift Cards are the perfect present for any occasion. Delivered instantly via email with no expiration date.</p>
+</section>
+
+<main class="content-grid">
+    <div class="info-box">
+        <h2>Why Choose Our eGift Cards?</h2>
+        <div class="gc-feature">
+            <i class="fas fa-bolt"></i>
+            <div>
+                <h4>Instant Delivery</h4>
+                <p>Forgot a birthday? No problem! Our eGift cards are delivered to the recipient's inbox within 5 minutes of purchase.</p>
+            </div>
+        </div>
+        <div class="gc-feature">
+            <i class="fas fa-infinity"></i>
+            <div>
+                <h4>Never Expires</h4>
+                <p>DesiDeal Gift Cards have no expiration dates and zero maintenance fees. Your loved ones can shop whenever they want.</p>
+            </div>
+        </div>
+        <div class="gc-feature">
+            <i class="fas fa-shopping-bag"></i>
+            <div>
+                <h4>Millions of Items</h4>
+                <p>From electronics to fashion and daily groceries, a DesiDeal Gift Card can be used to purchase absolutely anything on our platform.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80" alt="Gift Box" style="width: 100%; max-width: 250px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);" />
+        </div>
+    </div>
+
+    <div class="form-box" style="border-top: 4px solid #e052a0;">
+        <h2>Send an eGift Card</h2>
+        <form onsubmit="handleGiftCardPurchase(event)">
+            
+            <div class="form-group">
+                <label>Select Amount</label>
+                <div class="amount-grid">
+                    <button type="button" class="amount-btn" onclick="setGCAmount(500, this)">₹500</button>
+                    <button type="button" class="amount-btn active" onclick="setGCAmount(1000, this)">₹1000</button>
+                    <button type="button" class="amount-btn" onclick="setGCAmount(2000, this)">₹2000</button>
+                </div>
+                <input type="number" id="gc-amount" placeholder="Or enter custom amount (Min ₹100)" min="100" value="1000" required />
+            </div>
+
+            <div class="form-group">
+                <label>Recipient's Email</label>
+                <input type="email" id="gc-email" placeholder="friend@example.com" required />
+            </div>
+            
+            <div class="form-group">
+                <label>Recipient's Name</label>
+                <input type="text" id="gc-name" placeholder="John Doe" required />
+            </div>
+
+            <div class="form-group">
+                <label>Add a Personal Message</label>
+                <textarea id="gc-message" rows="3" placeholder="Happy Birthday! Buy yourself something nice."></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary full-width" style="padding: 14px; font-size: 16px; margin-top: 10px; background: #e052a0; border-color: #d84594;">Buy and Send Now</button>
+        </form>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+    function setGCAmount(amount, btnElement) {
+        document.getElementById('gc-amount').value = amount;
+        document.querySelectorAll('.amount-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+    }
+</script>
+</body>
+</html>
