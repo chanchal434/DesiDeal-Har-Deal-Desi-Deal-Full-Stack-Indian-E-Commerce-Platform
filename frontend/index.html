@@ -31,6 +31,10 @@
     /* ─── LOGO VISIBILITY FIXES (For White Backgrounds) ─── */
     #checkout-header .logo-main, #auth-logo .logo-main { background: none !important; -webkit-text-fill-color: #111 !important; color: #111 !important; }
     #checkout-header .logo-dot, #auth-logo .logo-dot { color: #FF9933 !important; }
+
+    /* ─── HERO BUTTON FIXES ─── */
+    #hero-slider .btn-outline { border: 2px solid #ffffff !important; color: #ffffff !important; background: transparent !important; transition: all 0.3s ease; }
+    #hero-slider .btn-outline:hover { background: #ffffff !important; color: #111111 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
   </style>
 </head>
 <body>
@@ -195,7 +199,7 @@
         <p class="hero-desc">Discover the latest trends in clothing and accessories. Fresh styles added daily.</p>
         <div class="hero-btns">
           <button class="btn-primary btn-lg" onclick="filterCategory('clothing')">Shop Fashion</button>
-          <button class="btn-outline btn-lg">View Lookbook</button>
+          <button class="btn-outline btn-lg" onclick="filterCategory('all')">View Lookbook</button>
         </div>
       </div>
       <div class="hero-image">
@@ -213,7 +217,7 @@
         <p class="hero-desc">Amazing deals on furniture, kitchen appliances, and home decor items.</p>
         <div class="hero-btns">
           <button class="btn-primary btn-lg" onclick="filterCategory('home')">Shop Home</button>
-          <button class="btn-outline btn-lg">Explore Deals</button>
+          <button class="btn-outline btn-lg" onclick="filterCategory('all')">Explore Deals</button>
         </div>
       </div>
       <div class="hero-image">
@@ -331,7 +335,6 @@
         <p>Free delivery, exclusive deals & more</p>
       </div>
       <button class="btn-gold">Get Prime</button>
-      
     </div>
     <div class="promo-card promo-gift" onclick="window.location.href='gift-cards.html'" style="cursor: pointer;">
       <i class="fas fa-gift"></i>
@@ -341,7 +344,6 @@
       </div>
       <button class="btn-primary" onclick="event.stopPropagation(); window.location.href='gift-cards.html'">Shop Gift Cards</button>
     </div>
-
     <div class="promo-card promo-sell" onclick="window.location.href='sell.html'" style="cursor: pointer;">
       <i class="fas fa-store"></i>
       <div>
@@ -669,4 +671,4 @@
 
 <script src="js/main.js"></script>
 </body>
-</html>
+</html>"
